@@ -1,0 +1,167 @@
+.custom-calendar {
+  @apply text-white h-full;
+}
+
+/* Header Toolbar */
+.custom-calendar .rbc-toolbar {
+  @apply mb-6 flex-wrap gap-3 p-2 bg-white/5 rounded-lg border border-white/10;
+}
+
+.custom-calendar .rbc-toolbar-label {
+  @apply text-lg font-semibold text-white/90;
+}
+
+.custom-calendar .rbc-btn-group {
+  @apply rounded-lg bg-white/5 p-1;
+}
+
+.custom-calendar .rbc-toolbar button {
+  @apply px-4 py-2 text-sm font-medium text-gray-300 
+         bg-transparent border-0 rounded-lg
+         hover:bg-white/10 hover:text-white
+         active:bg-white/15
+         transition-all duration-200;
+}
+
+.custom-calendar .rbc-toolbar button.rbc-active {
+  @apply bg-white/15 text-white shadow-inner;
+}
+
+/* Month View */
+.custom-calendar .rbc-month-view {
+  @apply border-white/10 rounded-xl overflow-hidden
+         shadow-lg shadow-black/10
+         bg-gradient-to-br from-white/5 to-transparent;
+}
+
+.custom-calendar .rbc-header {
+  @apply py-3 font-medium text-sm tracking-wider
+         bg-white/5 text-gray-300
+         border-white/10;
+}
+
+.custom-calendar .rbc-month-row {
+  @apply border-white/10;
+}
+
+.custom-calendar .rbc-day-bg {
+  @apply border-white/10 transition-colors duration-200
+         hover:bg-white/5;
+}
+
+.custom-calendar .rbc-off-range-bg {
+  @apply bg-white/[0.02];
+}
+
+.custom-calendar .rbc-today {
+  @apply bg-blue-500/10 backdrop-blur-sm;
+}
+
+/* Week/Day View */
+.custom-calendar .rbc-time-view {
+  @apply border-white/10 rounded-xl overflow-hidden
+         shadow-lg shadow-black/10;
+}
+
+.custom-calendar .rbc-time-header {
+  @apply border-white/10;
+}
+
+.custom-calendar .rbc-time-content {
+  @apply border-white/10;
+}
+
+.custom-calendar .rbc-time-slot {
+  @apply border-white/5;
+}
+
+.custom-calendar .rbc-timeslot-group {
+  @apply border-white/10;
+}
+
+/* Events */
+.custom-calendar .rbc-event {
+  @apply rounded-lg border-none shadow-md
+         backdrop-blur-sm
+         transition-transform duration-200
+         hover:scale-[1.02] hover:shadow-lg;
+}
+
+.custom-calendar .rbc-event-content {
+  @apply text-sm font-medium px-2 py-1;
+}
+
+/* Date Cell */
+.custom-calendar .rbc-date-cell {
+  @apply text-gray-400 p-2;
+}
+
+.custom-calendar .rbc-date-cell.rbc-now {
+  @apply text-blue-400 font-semibold;
+}
+
+/* Off Range Dates */
+.custom-calendar .rbc-off-range {
+  @apply text-gray-600;
+}
+
+/* Row/Cell Hover Effects */
+.custom-calendar .rbc-row-segment {
+  @apply transition-all duration-200;
+}
+
+.custom-calendar .rbc-row-segment:hover {
+  @apply bg-white/[0.02];
+}
+
+/* Show More Link */
+.custom-calendar .rbc-show-more {
+  @apply text-blue-400 hover:text-blue-300
+         bg-blue-500/10 hover:bg-blue-500/20
+         rounded-md px-2 py-1 m-1
+         transition-colors duration-200;
+}
+
+/* Selected Date */
+.custom-calendar .rbc-selected {
+  @apply bg-blue-500/20 backdrop-blur-sm;
+}
+
+/* Current Time Indicator */
+.custom-calendar .rbc-current-time-indicator {
+  @apply bg-blue-500 h-0.5 shadow-sm;
+}
+
+/* Agenda View */
+.custom-calendar .rbc-agenda-view {
+  @apply border-white/10 rounded-xl overflow-hidden;
+}
+
+.custom-calendar .rbc-agenda-empty {
+  @apply text-gray-400 p-4 text-center;
+}
+
+/* Time Grid */
+.custom-calendar .rbc-time-column {
+  @apply bg-gradient-to-b from-white/[0.02] to-transparent;
+}
+
+/* All Day Events */
+.custom-calendar .rbc-allday-cell {
+  @apply bg-white/5;
+}
+
+/* Time Gutter */
+.custom-calendar .rbc-time-gutter {
+  @apply text-gray-400 text-sm;
+}
+
+/* Day/Week Header */
+.custom-calendar .rbc-time-header-content {
+  @apply border-white/10;
+}
+
+/* Event Overlaps */
+.custom-calendar .rbc-event-overlaps {
+  @apply shadow-xl;
+} 
