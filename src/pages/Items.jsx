@@ -225,19 +225,19 @@ const Items = () => {
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-400">Rental Cost/Day</span>
                   <span className="text-white font-medium">
-                    ${item?.rentalCost}
+                    MAD {item?.rentalCost}
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-400">Buy Cost</span>
                   <span className="text-white font-medium">
-                    ${item?.buyCost}
+                    MAD {item?.buyCost}
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-400">Sell Price</span>
                   <span className="text-white font-medium">
-                    ${item?.sellPrice}
+                    MAD {item?.sellPrice}
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-sm">

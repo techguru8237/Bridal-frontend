@@ -354,7 +354,7 @@ const DashboardContent = () => {
     },
     {
       title: 'Total Payments',
-      value: `$ ${totalPayments}`,
+      value: `MAD ${totalPayments}`,
       change: getPaymentChange().value,
       trend: getPaymentChange().trend,
       icon: CardStackIcon,

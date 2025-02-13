@@ -204,7 +204,7 @@ const Payments = () => {
                   )}
                   {columnVisibility.amount && (
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                      ${payment.amount.toLocaleString()}
+                      MAD {payment.amount.toLocaleString()}
                     </td>
                   )}
                   {columnVisibility.date && (

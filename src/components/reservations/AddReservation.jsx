@@ -659,7 +659,7 @@ const AddReservation = ({ isOpen, onClose }) => {
                 <h3 className="text-white font-medium">{item.name}</h3>
                 <p className="text-sm text-gray-400">{item.category}</p>
                 <p className="text-sm font-medium text-white mt-2">
-                  ${item.rentalCost.toLocaleString()}
+                  MAD {item.rentalCost.toLocaleString()}
                 </p>
                 {/* Add availability status */}
                 <div className="mt-2 text-xs">
@@ -751,7 +751,7 @@ const AddReservation = ({ isOpen, onClose }) => {
             </label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                $
+                MAD
               </span>
               <input
                 type="number"
@@ -759,7 +759,7 @@ const AddReservation = ({ isOpen, onClose }) => {
                 onChange={(e) =>
                   setFormData({ ...formData, additionalCost: e.target.value })
                 }
-                className="w-full pl-8 pr-4 py-2 rounded-md border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                className="w-full pl-16 pr-4 py-2 rounded-md border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
               />
             </div>
           </div>
@@ -769,7 +769,7 @@ const AddReservation = ({ isOpen, onClose }) => {
             </label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                $
+                MAD
               </span>
               <input
                 type="number"
@@ -777,7 +777,7 @@ const AddReservation = ({ isOpen, onClose }) => {
                 onChange={(e) =>
                   setFormData({ ...formData, travelCost: e.target.value })
                 }
-                className="w-full pl-8 pr-4 py-2 rounded-md border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                className="w-full pl-16 pr-4 py-2 rounded-md border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
               />
             </div>
           </div>
@@ -790,7 +790,7 @@ const AddReservation = ({ isOpen, onClose }) => {
           </label>
           <div className="relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-              $
+              MAD
             </span>
             <input
               type="number"
@@ -798,7 +798,7 @@ const AddReservation = ({ isOpen, onClose }) => {
               onChange={(e) =>
                 setFormData({ ...formData, discount: e.target.value })
               }
-              className="w-full pl-8 pr-4 py-2 rounded-md border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full pl-16 pr-4 py-2 rounded-md border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
             />
           </div>
         </div>
@@ -812,7 +812,7 @@ const AddReservation = ({ isOpen, onClose }) => {
             <div className="flex justify-between text-sm">
               <span className="text-gray-400">Items Total</span>
               <span className="text-white">
-                ${financials.itemsTotal.toLocaleString()}
+                MAD {financials.itemsTotal.toLocaleString()}
               </span>
             </div>
 
@@ -820,7 +820,7 @@ const AddReservation = ({ isOpen, onClose }) => {
             <div className="flex justify-between text-sm">
               <span className="text-gray-400">Discount</span>
               <span className="text-white">
-                -${financials.discount.toLocaleString()}
+                -MAD {financials.discount.toLocaleString()}
               </span>
             </div>
 
@@ -828,7 +828,7 @@ const AddReservation = ({ isOpen, onClose }) => {
             <div className="flex justify-between text-sm">
               <span className="text-gray-400">Discounted Items Total</span>
               <span className="text-white">
-                ${financials.discountedItemsTotal.toLocaleString()}
+                MAD {financials.discountedItemsTotal.toLocaleString()}
               </span>
             </div>
 
@@ -855,7 +855,7 @@ const AddReservation = ({ isOpen, onClose }) => {
               </div>
               <div className="relative w-32">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                  $
+                  MAD
                 </span>
                 <input
                   type="number"
@@ -866,7 +866,7 @@ const AddReservation = ({ isOpen, onClose }) => {
                   onChange={(e) =>
                     handleSecurityDepositChange(e.target.value, true)
                   }
-                  className="w-full pl-8 pr-4 py-1 rounded border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/30 text-right"
+                  className="w-full pl-16 pr-4 py-1 rounded border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/30 text-right"
                 />
               </div>
             </div>
@@ -875,13 +875,13 @@ const AddReservation = ({ isOpen, onClose }) => {
             <div className="flex justify-between text-sm">
               <span className="text-gray-400">Additional Cost</span>
               <span className="text-white">
-                ${Number(formData.additionalCost).toLocaleString()}
+                MAD{Number(formData.additionalCost).toLocaleString()}
               </span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-400">Travel Cost</span>
               <span className="text-white">
-                ${Number(formData.travelCost).toLocaleString()}
+                MAD{Number(formData.travelCost).toLocaleString()}
               </span>
             </div>
 
@@ -889,7 +889,7 @@ const AddReservation = ({ isOpen, onClose }) => {
             <div className="border-t border-white/10 pt-3 flex justify-between">
               <span className="text-gray-200 font-medium">Subtotal</span>
               <span className="text-white font-medium">
-                ${financials.subtotal.toLocaleString()}
+                MAD{financials.subtotal.toLocaleString()}
               </span>
             </div>
 
@@ -914,14 +914,14 @@ const AddReservation = ({ isOpen, onClose }) => {
               </div>
               <div className="relative w-32">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                  $
+                  MAD
                 </span>
                 <input
                   type="number"
                   min="0"
                   value={formData.advanceAmount || financials.advance}
                   onChange={(e) => handleAdvanceChange(e.target.value, true)}
-                  className="w-full pl-8 pr-4 py-1 rounded border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/30 text-right"
+                  className="w-full pl-16 pr-4 py-1 rounded border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/30 text-right"
                 />
               </div>
             </div>
@@ -930,7 +930,7 @@ const AddReservation = ({ isOpen, onClose }) => {
             <div className="border-t border-white/10 pt-3 flex justify-between">
               <span className="text-gray-200 font-medium">Total</span>
               <span className="text-white font-medium">
-                ${financials.total.toLocaleString()}
+                MAD {financials.total.toLocaleString()}
               </span>
             </div>
           </div>

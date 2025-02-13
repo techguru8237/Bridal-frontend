@@ -136,7 +136,7 @@ const handleDownloadWeddingDressRentalContract = (reservation) => {
   doc.text(`• Advance: `, 25, 232);
   doc.setFont('helvetica', 'bold'); // Set to bold for advance
   doc.text(
-    `$${(reservation.advancePercentage * subtotal) / 100}`,
+    `MAD ${(reservation.advancePercentage * subtotal) / 100}`,
     25 + doc.getTextWidth(`• Advance: `),
     232
   );
@@ -155,7 +155,7 @@ const handleDownloadWeddingDressRentalContract = (reservation) => {
   doc.text(`• Security deposit: `, 25, 256);
   doc.setFont('helvetica', 'bold'); // Set to bold for security deposit
   doc.text(
-    `$${(reservation.securityDepositPercentage * subtotal) / 100}`,
+    `MAD ${(reservation.securityDepositPercentage * subtotal) / 100}`,
     25 + doc.getTextWidth(`• Security deposit: `),
     256
   );

@@ -720,7 +720,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
                       : 'bg-white/5 text-gray-400'
                   }`}
                 >
-                  $
+                  MAD
                 </button>
               </div>
             </div>
@@ -784,7 +784,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
                       : 'bg-white/5 text-gray-400'
                   }`}
                 >
-                  $
+                  MAD
                 </button>
               </div>
             </div>
