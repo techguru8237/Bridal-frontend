@@ -177,7 +177,7 @@ const AddReservationModal = ({ isOpen, onClose }) => {
                   Total Amount <span className="text-red-400">*</span>
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">$</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">MAD</span>
                   <input
                     type="number"
                     value={formData.totalAmount}

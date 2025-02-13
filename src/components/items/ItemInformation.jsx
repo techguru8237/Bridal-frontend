@@ -312,13 +312,13 @@ export default function ItemInformation({reservation, onClose}) {
                     </p>
                     <div className="text-sm text-gray-400">
                       <p>
-                        Paid: ${paymentDetails.totalPaid.toLocaleString()} (
+                        Paid: MAD{paymentDetails.totalPaid.toLocaleString()} (
                         {paymentDetails.percentage.toFixed(1)}%)
                       </p>
                       {paymentDetails.remaining > 0 &&
                         paymentDetails.paymentStatus !== 'Refunded' && (
                           <p>
-                            Remaining: $
+                            Remaining: MAD
                             {paymentDetails.remaining.toLocaleString()}
                           </p>
                         )}
@@ -330,7 +330,7 @@ export default function ItemInformation({reservation, onClose}) {
                     Security Deposit
                   </label>
                   <p className="text-white font-medium">
-                    ${financials.securityDeposit.toLocaleString()} (
+                    MAD{financials.securityDeposit.toLocaleString()} (
                     {reservation.securityDepositPercentage}%)
                   </p>
                 </div>
@@ -339,7 +339,7 @@ export default function ItemInformation({reservation, onClose}) {
                     Advance Required
                   </label>
                   <p className="text-white font-medium">
-                    ${financials.advance.toLocaleString()} (
+                    MAD{financials.advance.toLocaleString()} (
                     {reservation.advancePercentage}%)
                   </p>
                 </div>
@@ -348,13 +348,13 @@ export default function ItemInformation({reservation, onClose}) {
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Items Total:</span>
                   <span className="text-white">
-                    ${financials.itemsTotal.toLocaleString()}
+                    MAD{financials.itemsTotal.toLocaleString()}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Additional Costs:</span>
                   <span className="text-white">
-                    $
+                    MAD
                     {(
                       Number(reservation.additionalCost) +
                       Number(reservation.travelCost)
@@ -364,25 +364,25 @@ export default function ItemInformation({reservation, onClose}) {
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Travel Cost:</span>
                   <span className="text-white">
-                    ${Number(reservation.travelCost).toLocaleString()}
+                    MAD{Number(reservation.travelCost).toLocaleString()}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Other Costs:</span>
                   <span className="text-white">
-                    ${Number(reservation.additionalCost).toLocaleString()}
+                    MAD{Number(reservation.additionalCost).toLocaleString()}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Security Deposit:</span>
                   <span className="text-white">
-                    ${financials.securityDeposit.toLocaleString()}
+                    MAD{financials.securityDeposit.toLocaleString()}
                   </span>
                 </div>
                 <div className="flex justify-between font-medium pt-2 border-t border-white/10">
                   <span className="text-gray-400">Total:</span>
                   <span className="text-white">
-                    ${financials.total.toLocaleString()}
+                    MAD{financials.total.toLocaleString()}
                   </span>
                 </div>
               </div>

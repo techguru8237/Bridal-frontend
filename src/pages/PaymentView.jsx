@@ -137,7 +137,7 @@ const PaymentView = () => {
               <div className="mt-2 grid grid-cols-3 gap-2 text-xs">
                 <div>
                   <div className="text-gray-400">Total</div>
-                  <div className="text-white">${payment.reservation.total}</div>
+                  <div className="text-white">MAD{payment.reservation.total}</div>
                 </div>
                 <div>
                   <div className="text-gray-400">Paid</div>
@@ -163,7 +163,7 @@ const PaymentView = () => {
               <p className="text-sm text-gray-400">Amount</p>
               <div className="flex items-center space-x-2">
                 <CardStackIcon className="h-4 w-4 text-white/60" />
-                <p className="text-white">${payment.amount.toLocaleString()}</p>
+                <p className="text-white">MAD{payment.amount.toLocaleString()}</p>
               </div>
               <p className="text-sm text-gray-400">{payment.paymentMethod}</p>
             </div>

@@ -146,7 +146,7 @@ const ViewReservation = ({ isOpen, onClose, reservation }) => {
               <div>
                 <label className="text-sm text-gray-400">Full Name</label>
                 <p className="text-white font-medium">
-                  {reservation.client.name}{" "}{reservation.client.surname}
+                  {reservation.client.name} {reservation.client.surname}
                 </p>
               </div>
               <div>
@@ -319,13 +319,13 @@ const ViewReservation = ({ isOpen, onClose, reservation }) => {
                   </p>
                   <div className="text-sm text-gray-400">
                     <p>
-                      Paid: ${paymentDetails.totalPaid.toLocaleString()} (
+                      Paid: MAD {paymentDetails.totalPaid.toLocaleString()} (
                       {paymentDetails.percentage.toFixed(1)}%)
                     </p>
                     {paymentDetails.remaining > 0 &&
                       paymentDetails.paymentStatus !== 'Refunded' && (
                         <p>
-                          Remaining: $
+                          Remaining: MAD 
                           {paymentDetails.remaining.toLocaleString()}
                         </p>
                       )}
@@ -337,7 +337,7 @@ const ViewReservation = ({ isOpen, onClose, reservation }) => {
                   Security Deposit
                 </label>
                 <p className="text-white font-medium">
-                  ${financials.securityDeposit.toLocaleString()} (
+                  MAD {financials.securityDeposit.toLocaleString()} (
                   {reservation.securityDepositPercentage}%)
                 </p>
               </div>
@@ -346,7 +346,7 @@ const ViewReservation = ({ isOpen, onClose, reservation }) => {
                   Advance Required
                 </label>
                 <p className="text-white font-medium">
-                  ${financials.advance.toLocaleString()} (
+                  MAD {financials.advance.toLocaleString()} (
                   {reservation.advancePercentage}%)
                 </p>
               </div>
@@ -355,13 +355,13 @@ const ViewReservation = ({ isOpen, onClose, reservation }) => {
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Items Total:</span>
                 <span className="text-white">
-                  ${financials.itemsTotal.toLocaleString()}
+                  MAD {financials.itemsTotal.toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Additional Costs:</span>
                 <span className="text-white">
-                  $
+                  MAD{" "}
                   {(
                     Number(reservation.additionalCost) +
                     Number(reservation.travelCost)
@@ -371,31 +371,31 @@ const ViewReservation = ({ isOpen, onClose, reservation }) => {
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Travel Cost:</span>
                 <span className="text-white">
-                  ${Number(reservation.travelCost).toLocaleString()}
+                  MAD {Number(reservation.travelCost).toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Other Costs:</span>
                 <span className="text-white">
-                  ${Number(reservation.additionalCost).toLocaleString()}
+                  MAD {Number(reservation.additionalCost).toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Discount:</span>
                 <span className="text-white">
-                  -${financials.discount.toLocaleString()}
+                  -MAD {financials.discount.toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Security Deposit:</span>
                 <span className="text-white">
-                  ${financials.securityDeposit.toLocaleString()}
+                  MAD {financials.securityDeposit.toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between font-medium pt-2 border-t border-white/10">
                 <span className="text-gray-400">Total:</span>
                 <span className="text-white">
-                  ${financials.total.toLocaleString()}
+                  MAD {financials.total.toLocaleString()}
                 </span>
               </div>
             </div>
@@ -430,7 +430,7 @@ const ViewReservation = ({ isOpen, onClose, reservation }) => {
           <div className="flex-1">
             <h4 className="text-white font-medium">{item.name}</h4>
             <p className="text-sm text-gray-400">
-              Rental Cost: ${item.rentalCost.toLocaleString()}
+              Rental Cost: MAD {item.rentalCost.toLocaleString()}
             </p>
           </div>
         </Link>
@@ -475,7 +475,7 @@ const ViewReservation = ({ isOpen, onClose, reservation }) => {
                   {format(new Date(payment.paymentDate), 'PP')}
                 </td>
                 <td className="p-4 text-white">
-                  ${payment.amount.toLocaleString()}
+                  MAD {payment.amount.toLocaleString()}
                 </td>
                 <td className="p-4 text-white">{payment.paymentType}</td>
                 <td className="p-4 text-white">{payment.paymentMethod}</td>

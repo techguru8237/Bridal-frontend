@@ -32,17 +32,19 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
     pickupDate: '',
     returnDate: '',
     availabilityDate: '',
+    fittingDate: '',
     pickupTime: '00:00',
     returnTime: '00:00',
     availabilityTime: '00:00',
+    fittingTime: '00:00',
     additionalCost: 0,
     travelCost: 0,
     securityDepositPercentage: 30,
     advancePercentage: 50,
     notes: '',
-    bufferBefore: 3,
-    bufferAfter: 3,
-    availability: 5,
+    bufferBefore: 0,
+    bufferAfter: 1,
+    availability: 1,
     discount: 0,
   });
 
@@ -79,6 +81,17 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
     formData.bufferAfter,
     formData.availability,
   ]);
+
+  useEffect(() => {
+    if (formData.type === 'Fitting') {
+      setFormData((prev) => ({
+        ...prev,
+        bufferBefore: 0,
+        bufferAfter: 0,
+        availability: 0,
+      }));
+    }
+  }, [formData.type]);
 
   // Load reservation data when component mounts
   useEffect(() => {
@@ -162,7 +175,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
         );
       case 3: {
         const financials = calculateFinancials();
-        return financials.total > 0 && formData.status;
+        return financials.total >= 0 && formData.status;
       }
       default:
         return false;
@@ -225,9 +238,6 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
         client: selectedClient._id,
         type: formData.type,
         status: formData.status,
-        pickupDate: formData.pickupDate,
-        returnDate: formData.returnDate,
-        availabilityDate: formData.availabilityDate,
         items: selectedItems?.map((item) => item._id),
         additionalCost: Number(formData.additionalCost),
         travelCost: Number(formData.travelCost),
@@ -240,6 +250,14 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
         availability: formData.availability,
         discount: Number(formData.discount),
       };
+
+      if (formData.type === 'Final') {
+        reservationData.pickupDate = `${formData.pickupDate}T${formData.pickupTime}`;
+        reservationData.returnDate = `${formData.returnDate}T${formData.returnTime}`;
+        reservationData.availabilityDate = `${formData.availabilityDate}T${formData.availabilityTime}`;
+      } else {
+        reservationData.fittingDate = `${formData.fittingDate}T${formData.fittingTime}`;
+      }
 
       handleUpdateReservation(
         reservation._id,
@@ -265,9 +283,9 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
         securityDepositPercentage: 30,
         advancePercentage: 50,
         notes: '',
-        bufferBefore: 3,
-        bufferAfter: 3,
-        availability: 5,
+        bufferBefore: 0,
+        bufferAfter: 1,
+        availability: 1,
         discount: 0,
       });
     } catch (error) {
@@ -361,7 +379,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
               />
               <div>
                 <p className="text-white font-medium">{item.name}</p>
-                <p className="text-sm text-gray-400">${item.rentalCost}</p>
+                <p className="text-sm text-gray-400">MAD{item.rentalCost}</p>
               </div>
             </div>
             <button
@@ -422,7 +440,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
                   />
                   <div>
                     <p className="text-white font-medium">{item.name}</p>
-                    <p className="text-sm text-gray-400">${item.rentalCost}</p>
+                    <p className="text-sm text-gray-400">MAD{item.rentalCost}</p>
                     <p className="text-sm text-gray-400">
                       {
                         categories.find((cat) => cat._id === item.category)
@@ -441,135 +459,165 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
       )}
 
       {/* Date Selection */}
-      <div className="grid grid-cols-3 gap-4">
+      {formData.type === 'Final' ? (
+        <div className="grid grid-cols-3 gap-4">
+          <div className="space-y-2">
+            <div>
+              <p className="text-sm text-gray-400">Pickup Date</p>
+              <p className="text-lg font-medium text-white">
+                {/* {format(new Date(formData.pickupDate), "PPP")} */}
+                {formData.pickupDate
+                  ? format(new Date(formData.pickupDate), 'PPP')
+                  : ''}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-400">Pickup Time</p>
+              <Input
+                type="time"
+                name="pickupTime"
+                value={formData.pickupTime}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    pickupTime: e.target.value,
+                  }))
+                }
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-200">
+                Days Before Wedding
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={formData.bufferBefore}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    bufferBefore: parseInt(e.target.value),
+                  })
+                }
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <div>
+              <p className="text-sm text-gray-400">Return Date</p>
+              <p className="text-lg font-medium text-white">
+                {formData.returnDate
+                  ? format(new Date(formData.returnDate), 'PPP')
+                  : ''}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-400">Return Time</p>
+              <Input
+                type="time"
+                name="weddingTime"
+                value={formData.returnTime}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    returnTime: e.target.value,
+                  }))
+                }
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-200">
+                Days After Wedding
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={formData.bufferAfter}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    bufferAfter: parseInt(e.target.value),
+                  })
+                }
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <div>
+              <p className="text-sm text-gray-400">Availability Date</p>
+              <p className="text-lg font-medium text-white">
+                {formData.availabilityDate
+                  ? format(new Date(formData.availabilityDate), 'PPP')
+                  : ''}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-400">Availability Time</p>
+              <Input
+                type="time"
+                name="weddingTime"
+                value={formData.availabilityTime}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    availabilityTime: e.target.value,
+                  }))
+                }
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-200">
+                Availability Duaration
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={formData.availability}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    availability: parseInt(e.target.value),
+                  })
+                }
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
         <div className="space-y-2">
           <div>
             <p className="text-sm text-gray-400">Pickup Date</p>
-            <p className="text-lg font-medium text-white">
-              {/* {format(new Date(formData.pickupDate), "PPP")} */}
-              {formData.pickupDate
-                ? format(new Date(formData.pickupDate), 'PPP')
-                : ''}
-            </p>
+            <Input
+              type="date"
+              name="fittingDate"
+              value={formData.fittingDate}
+              onChange={(e) => setFormData({...formData, fittingDate: e.target.value})}
+              required
+            />
           </div>
           <div>
-            <p className="text-sm text-gray-400">Pickup Time</p>
+            <p className="text-sm text-gray-400">Fitting Time</p>
             <Input
               type="time"
-              name="weddingTime"
-              value={formData.pickupTime}
+              name="fittingTime"
+              value={formData.fittingTime}
               onChange={(e) =>
                 setFormData((prev) => ({
                   ...prev,
-                  pickupTime: e.target.value,
+                  fittingTime: e.target.value,
                 }))
               }
               required
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-200">
-              Days Before Wedding
-            </label>
-            <input
-              type="number"
-              min="0"
-              value={formData.bufferBefore}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  bufferBefore: parseInt(e.target.value),
-                })
-              }
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-            />
-          </div>
         </div>
-        <div className="space-y-2">
-          <div>
-            <p className="text-sm text-gray-400">Return Date</p>
-            <p className="text-lg font-medium text-white">
-              {formData.returnDate
-                ? format(new Date(formData.returnDate), 'PPP')
-                : ''}
-            </p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-400">Return Time</p>
-            <Input
-              type="time"
-              name="weddingTime"
-              value={formData.returnTime}
-              onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  returnTime: e.target.value,
-                }))
-              }
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-200">
-              Days After Wedding
-            </label>
-            <input
-              type="number"
-              min="0"
-              value={formData.bufferAfter}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  bufferAfter: parseInt(e.target.value),
-                })
-              }
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-            />
-          </div>
-        </div>
-        <div className="space-y-2">
-          <div>
-            <p className="text-sm text-gray-400">Availability Date</p>
-            <p className="text-lg font-medium text-white">
-              {formData.availabilityDate
-                ? format(new Date(formData.availabilityDate), 'PPP')
-                : ''}
-            </p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-400">Availability Time</p>
-            <Input
-              type="time"
-              name="weddingTime"
-              value={formData.availabilityTime}
-              onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  availabilityTime: e.target.value,
-                }))
-              }
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-200">
-              Availability Duaration
-            </label>
-            <input
-              type="number"
-              min="0"
-              value={formData.availability}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  availability: parseInt(e.target.value),
-                })
-              }
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-            />
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 
@@ -772,13 +820,13 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
           <div className="flex justify-between text-sm">
             <span className="text-gray-400">Items Total:</span>
             <span className="text-white">
-              ${financials.itemsTotal.toLocaleString()}
+              MAD{financials.itemsTotal.toLocaleString()}
             </span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-gray-400">Additional Costs:</span>
             <span className="text-white">
-              $
+              MAD
               {(
                 Number(formData.additionalCost) + Number(formData.travelCost)
               ).toLocaleString()}
@@ -787,25 +835,25 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
           <div className="flex justify-between text-sm">
             <span className="text-gray-400">Discount:</span>
             <span className="text-white">
-              -${financials.discount.toLocaleString()}
+              -MAD{financials.discount.toLocaleString()}
             </span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-gray-400">Security Deposit:</span>
             <span className="text-white">
-              ${financials.securityDeposit.toLocaleString()}
+              MAD{financials.securityDeposit.toLocaleString()}
             </span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-gray-400">Advance Payment:</span>
             <span className="text-white">
-              ${financials.advance.toLocaleString()}
+              MAD{financials.advance.toLocaleString()}
             </span>
           </div>
           <div className="flex justify-between font-medium pt-2 border-t border-white/10">
             <span className="text-gray-400">Total:</span>
             <span className="text-white">
-              ${financials.total.toLocaleString()}
+              MAD{financials.total.toLocaleString()}
             </span>
           </div>
         </div>

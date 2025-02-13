@@ -145,7 +145,7 @@ const ItemDetails = ({ item }) => {
             <label className="text-sm font-medium text-gray-400 uppercase tracking-wider block mb-1">
               Buy Cost
             </label>
-            <p className="text-xl text-white font-semibold">${item.buyCost}</p>
+            <p className="text-xl text-white font-semibold">MAD{item.buyCost}</p>
           </div>
           <div className="bg-white/5 rounded-lg p-4 border border-white/10 hover:bg-white/10 transition-colors duration-300">
             <label className="text-sm font-medium text-gray-400 uppercase tracking-wider block mb-1">

@@ -49,6 +49,7 @@ const Reservations = () => {
     pickupDate: true,
     returnDate: true,
     availabilityDate: true,
+    fittingDate: true,
     total: true,
     type: true,
     payment: true,
@@ -105,6 +106,16 @@ const Reservations = () => {
       if (sortColumn === 'clientName') {
         aValue = `${a.client?.name} ${a.client?.surname}`;
         bValue = `${b.client?.name} ${b.client?.surname}`;
+      }
+
+      if (sortColumn === 'weddingDate') {
+        aValue = `${a.client?.weddingDate}`;
+        bValue = `${b.client?.weddingDate}`;
+      }
+
+      if (sortColumn === 'item') {
+        aValue = `${a.items[0]?.name}`;
+        bValue = `${b.items[0]?.name}`;
       }
 
       if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
@@ -284,8 +295,19 @@ const Reservations = () => {
                   </th>
                 )}
                 {columnVisibility.item && (
-                  <th className="text-left text-xs font-medium text-gray-400 uppercase p-4">
-                    Item
+                  <th
+                    className="text-left text-xs font-medium text-gray-400 uppercase p-4 cursor-pointer"
+                    onClick={() => handleSort('item')}
+                  >
+                    <div className="flex items-center">
+                      Item
+                      {sortColumn === 'item' &&
+                        (sortOrder === 'asc' ? (
+                          <ChevronUpIcon className="inline h-4 w-4" />
+                        ) : (
+                          <ChevronDownIcon className="inline h-4 w-4" />
+                        ))}
+                    </div>
                   </th>
                 )}
                 {columnVisibility.weddingDate && (
@@ -344,6 +366,22 @@ const Reservations = () => {
                     <div className="flex items-center">
                       Availability Date
                       {sortColumn === 'availabilityDate' &&
+                        (sortOrder === 'asc' ? (
+                          <ChevronUpIcon className="inline h-4 w-4" />
+                        ) : (
+                          <ChevronDownIcon className="inline h-4 w-4" />
+                        ))}
+                    </div>
+                  </th>
+                )}
+                {columnVisibility.fittingDate && (
+                  <th
+                    className="text-left text-xs font-medium text-gray-400 uppercase p-4 cursor-pointer"
+                    onClick={() => handleSort('fittingDate')}
+                  >
+                    <div className="flex items-center">
+                      Fitting Date
+                      {sortColumn === 'fittingDate' &&
                         (sortOrder === 'asc' ? (
                           <ChevronUpIcon className="inline h-4 w-4" />
                         ) : (
@@ -497,7 +535,7 @@ const Reservations = () => {
                       )}
                       {columnVisibility.pickupDate && (
                         <td className="p-4 text-white">
-                          {new Date(reservation.pickupDate).toLocaleString(
+                          {reservation.type === "Final" ? new Date(reservation.pickupDate).toLocaleString(
                             'en-US',
                             {
                               year: 'numeric',
@@ -507,12 +545,12 @@ const Reservations = () => {
                               minute: '2-digit',
                               hour12: false,
                             }
-                          )}
+                          ) : ""}
                         </td>
                       )}
                       {columnVisibility.returnDate && (
                         <td className="p-4 text-white">
-                          {new Date(reservation.returnDate).toLocaleString(
+                          {reservation.type === "Final" ? new Date(reservation.returnDate).toLocaleString(
                             'en-US',
                             {
                               year: 'numeric',
@@ -522,12 +560,12 @@ const Reservations = () => {
                               minute: '2-digit',
                               hour12: false,
                             }
-                          )}
+                          ) : ""}
                         </td>
                       )}
                       {columnVisibility.availabilityDate && (
                         <td className="p-4 text-white">
-                          {new Date(
+                          {reservation.type === "Final" ? new Date(
                             reservation.availabilityDate
                           ).toLocaleString('en-US', {
                             year: 'numeric',
@@ -536,12 +574,27 @@ const Reservations = () => {
                             hour: '2-digit',
                             minute: '2-digit',
                             hour12: false,
-                          })}
+                          }) : ""}
+                        </td>
+                      )}
+                      {columnVisibility.fittingDate && (
+                        <td className="p-4 text-white">
+                          {reservation.type === "Fitting" ? new Date(reservation.fittingDate).toLocaleString(
+                            'en-US',
+                            {
+                              year: 'numeric',
+                              month: '2-digit',
+                              day: '2-digit',
+                              hour: '2-digit',
+                              minute: '2-digit',
+                              hour12: false,
+                            }
+                          ) : ""}
                         </td>
                       )}
                       {columnVisibility.total && (
                         <td className="p-4 text-white">
-                          ${financials.total.toLocaleString()}
+                          MAD {financials.total.toLocaleString()}
                         </td>
                       )}
                       {columnVisibility.type && (

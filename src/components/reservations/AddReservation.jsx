@@ -22,18 +22,20 @@ const AddReservation = ({ isOpen, onClose }) => {
     clientId: '',
     items: [],
     weddingDate: '',
+    fittingDate: '',
     pickupDate: '',
     returnDate: '',
     availabilityDate: '',
+    fittingTime: '00:00',
     pickupTime: '00:00',
     returnTime: '00:00',
     availabilityTime: '00:00',
     status: 'Draft',
     additionalCost: 0,
     travelCost: 0,
-    bufferBefore: 3,
-    bufferAfter: 3,
-    availability: 5,
+    bufferBefore: 0,
+    bufferAfter: 1,
+    availability: 1,
     securityDepositPercentage: 30,
     advancePercentage: 50,
     discount: 0,
@@ -63,8 +65,8 @@ const AddReservation = ({ isOpen, onClose }) => {
       setFormData((prev) => ({
         ...prev,
         bufferBefore: 0,
-        bufferAfter: 1,
-        availability: 1,
+        bufferAfter: 0,
+        availability: 0,
       }));
     }
   }, [formData.type]);
@@ -440,27 +442,159 @@ const AddReservation = ({ isOpen, onClose }) => {
             />
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          {formData.type === 'Final' ? (
+            <div className="grid grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <div>
+                  <p className="text-sm text-gray-400">Pickup Date</p>
+                  <p className="text-lg font-medium text-white">
+                    {formData.pickupDate
+                      ? format(new Date(formData.pickupDate), 'PPP')
+                      : ''}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-400">Pickup Time</p>
+                  <Input
+                    type="time"
+                    name="weddingTime"
+                    value={formData.pickupTime}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        pickupTime: e.target.value,
+                      }))
+                    }
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-200">
+                    Days Before Wedding
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={formData.bufferBefore}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        bufferBefore: parseInt(e.target.value),
+                      })
+                    }
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div>
+                  <p className="text-sm text-gray-400">Return Date</p>
+                  <p className="text-lg font-medium text-white">
+                    {formData.returnDate
+                      ? format(new Date(formData.returnDate), 'PPP')
+                      : ''}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-400">Return Time</p>
+                  <Input
+                    type="time"
+                    name="weddingTime"
+                    value={formData.returnTime}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        returnTime: e.target.value,
+                      }))
+                    }
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-200">
+                    Days After Wedding
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={formData.bufferAfter}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        bufferAfter: parseInt(e.target.value),
+                      })
+                    }
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div>
+                  <p className="text-sm text-gray-400">Availability Date</p>
+                  <p className="text-lg font-medium text-white">
+                    {formData.availabilityDate
+                      ? format(new Date(formData.availabilityDate), 'PPP')
+                      : ''}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-400">Availability Time</p>
+                  <Input
+                    type="time"
+                    name="weddingTime"
+                    value={formData.availabilityTime}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        availabilityTime: e.target.value,
+                      }))
+                    }
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-200">
+                    Availability Duaration
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={formData.availability}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        availability: parseInt(e.target.value),
+                      })
+                    }
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+                  />
+                </div>
+              </div>
+            </div>
+          ) : (
             <div className="space-y-2">
               <div>
-                <p className="text-sm text-gray-400">Pickup Date</p>
-                <p className="text-lg font-medium text-white">
-                  {/* {format(new Date(formData.pickupDate), "PPP")} */}
-                  {formData.pickupDate
-                    ? format(new Date(formData.pickupDate), 'PPP')
-                    : ''}
-                </p>
+                <p className="text-sm text-gray-400">Fitting Date</p>
+                <Input
+                  type="date"
+                  name="fittingDate"
+                  value={formData.fittingDate}
+                  onChange={(e) =>
+                    setFormData({ ...formData, fittingDate: e.target.value })
+                  }
+                  required
+                />
               </div>
               <div>
-                <p className="text-sm text-gray-400">Pickup Time</p>
+                <p className="text-sm text-gray-400">Fitting Time</p>
                 <Input
                   type="time"
-                  name="weddingTime"
-                  value={formData.pickupTime}
+                  name="fittingTime"
+                  value={formData.fittingTime}
                   onChange={(e) =>
                     setFormData((prev) => ({
                       ...prev,
-                      pickupTime: e.target.value,
+                      fittingTime: e.target.value,
                     }))
                   }
                   required
@@ -484,91 +618,7 @@ const AddReservation = ({ isOpen, onClose }) => {
                 />
               </div>
             </div>
-            <div className="space-y-2">
-              <div>
-                <p className="text-sm text-gray-400">Return Date</p>
-                <p className="text-lg font-medium text-white">
-                  {formData.returnDate
-                    ? format(new Date(formData.returnDate), 'PPP')
-                    : ''}
-                </p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-400">Return Time</p>
-                <Input
-                  type="time"
-                  name="weddingTime"
-                  value={formData.returnTime}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      returnTime: e.target.value,
-                    }))
-                  }
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-200">
-                  Days After Wedding
-                </label>
-                <input
-                  type="number"
-                  min="0"
-                  value={formData.bufferAfter}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      bufferAfter: parseInt(e.target.value),
-                    })
-                  }
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <div>
-                <p className="text-sm text-gray-400">Availability Date</p>
-                <p className="text-lg font-medium text-white">
-                  {formData.availabilityDate
-                    ? format(new Date(formData.availabilityDate), 'PPP')
-                    : ''}
-                </p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-400">Availability Time</p>
-                <Input
-                  type="time"
-                  name="weddingTime"
-                  value={formData.availabilityTime}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      availabilityTime: e.target.value,
-                    }))
-                  }
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-200">
-                  Availability Duaration
-                </label>
-                <input
-                  type="number"
-                  min="0"
-                  value={formData.availability}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      availability: parseInt(e.target.value),
-                    })
-                  }
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-                />
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       )}
 
@@ -919,9 +969,6 @@ const AddReservation = ({ isOpen, onClose }) => {
         type: formData.type,
         status: formData.status,
         paymentStatus: 'Pending',
-        pickupDate: `${formData.pickupDate}T${formData.pickupTime}`,
-        returnDate: `${formData.returnDate}T${formData.returnTime}`,
-        availabilityDate: `${formData.availabilityDate}T${formData.availabilityTime}`,
         items: selectedItems?.map((item) => item._id),
         additionalCost: Number(formData.additionalCost),
         travelCost: Number(formData.travelCost),
@@ -934,8 +981,16 @@ const AddReservation = ({ isOpen, onClose }) => {
         bufferAfter: formData.bufferAfter + diffDays,
         bufferBefore: formData.bufferBefore,
         availability: formData.availability,
-        discount: formData.discount
+        discount: formData.discount,
       };
+
+      if (formData.type === 'Final') {
+        reservationData.pickupDate = `${formData.pickupDate}T${formData.pickupTime}`;
+        reservationData.returnDate = `${formData.returnDate}T${formData.returnTime}`;
+        reservationData.availabilityDate = `${formData.availabilityDate}T${formData.availabilityTime}`;
+      } else {
+        reservationData.fittingDate = `${formData.fittingDate}T${formData.fittingTime}`;
+      }
 
       handleReserve(reservationData, (newReservation) => {
         dispatch(addReservation(newReservation));
@@ -962,7 +1017,7 @@ const AddReservation = ({ isOpen, onClose }) => {
       case 3: {
         // Validate financials
         const financials = calculateFinancials();
-        return financials.total > 0 && formData.status;
+        return financials.total >= 0 && formData.status;
       }
       default:
         return false;
