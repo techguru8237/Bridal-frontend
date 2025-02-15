@@ -316,7 +316,7 @@ const DashboardContent = () => {
       1
     );
 
-    const previousMonthActiveAmount = reservations.filter(
+    const previousMonthActiveAmount = reservations?.filter(
       (reservation) =>
         new Date(reservation.availabilityDate) >= startOfPreviousMonth &&
         new Date(reservation.availabilityDate) <= startOfCurrentMonth
@@ -368,7 +368,7 @@ const DashboardContent = () => {
     },
     {
       title: 'Dress',
-      value: items.length,
+      value: items?.length,
       change: '+8%',
       trend: 'up',
       icon: BoxIcon,
@@ -445,13 +445,13 @@ const DashboardContent = () => {
     },
   ];
 
-  const filteredPickups = reservations.filter(
+  const filteredPickups = reservations?.filter(
     (reservation) =>
       new Date(reservation.pickupDate) >= dateRanges.pickup.startDate &&
       new Date(reservation.pickupDate) < dateRanges.pickup.endDate
   );
 
-  const filteredReturns = reservations.filter(
+  const filteredReturns = reservations?.filter(
     (reservation) =>
       new Date(reservation.returnDate) >= dateRanges.return.startDate &&
       new Date(reservation.returnDate) < dateRanges.return.endDate

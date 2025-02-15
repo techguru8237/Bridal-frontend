@@ -102,32 +102,36 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
         ...prev,
         type: reservation.type,
         status: reservation.status,
-        pickupDate: new Date(reservation.pickupDate)
-          .toISOString()
-          .split('T')[0],
-        returnDate: new Date(reservation.returnDate)
-          .toISOString()
-          .split('T')[0],
+        pickupDate: reservation.pickupDate
+          ? new Date(reservation.pickupDate).toISOString().split("T")[0]
+          : "",
+        returnDate: reservation.returnDate
+          ? new Date(reservation.returnDate).toISOString().split("T")[0]
+          : "",
         availabilityDate: reservation.availabilityDate
-          ? new Date(reservation.availabilityDate).toISOString().split('T')[0]
-          : '',
-        pickupTime: new Date(reservation.pickupDate).toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false,
-        }),
-        returnTime: new Date(reservation.returnDate).toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false,
-        }),
-        availabilityTime: reservation.availabilityDate
-          ? new Date(reservation.availabilityDate).toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
+          ? new Date(reservation.availabilityDate).toISOString().split("T")[0]
+          : "",
+        pickupTime: reservation.pickupTime
+          ? new Date(reservation.pickupDate).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
               hour12: false,
             })
-          : '00:00',
+          : "00:00",
+        returnTime: reservation.returnTime
+          ? new Date(reservation.returnDate).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })
+          : "00:00",
+        availabilityTime: reservation.availabilityDate
+          ? new Date(reservation.availabilityDate).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })
+          : "00:00",
         additionalCost: reservation.additionalCost,
         travelCost: reservation.travelCost,
         securityDepositPercentage: reservation.securityDepositPercentage,
@@ -592,7 +596,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
       ) : (
         <div className="space-y-2">
           <div>
-            <p className="text-sm text-gray-400">Pickup Date</p>
+            <p className="text-sm text-gray-400">Fitting Date</p>
             <Input
               type="date"
               name="fittingDate"

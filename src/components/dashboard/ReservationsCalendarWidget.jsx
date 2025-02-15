@@ -27,7 +27,7 @@ const ReservationsCalendarWidget = ({ reservations }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const transformReservations = () => {
-    return reservations.map((reservation) => ({
+    return reservations?.map((reservation) => ({
       id: reservation._id, // Use the reservation ID
       title: `${reservation.client?.name}-${reservation.items[0]?.name}`, // Customize the title
       start: new Date(reservation.pickupDate), // Start date

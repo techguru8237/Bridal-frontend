@@ -600,23 +600,6 @@ const AddReservation = ({ isOpen, onClose }) => {
                   required
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-200">
-                  Days Before Wedding
-                </label>
-                <input
-                  type="number"
-                  min="0"
-                  value={formData.bufferBefore}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      bufferBefore: parseInt(e.target.value),
-                    })
-                  }
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-                />
-              </div>
             </div>
           )}
         </div>
@@ -836,7 +819,7 @@ const AddReservation = ({ isOpen, onClose }) => {
             <div className="flex justify-between text-sm items-center">
               <div className="flex items-center gap-2">
                 <span className="text-gray-400">Security Deposit</span>
-                <div className="relative w-20">
+                <div className="px-1 flex items-center relative w-20 rounded border border-white/20 bg-white/10">
                   <input
                     type="number"
                     min="0"
@@ -845,16 +828,16 @@ const AddReservation = ({ isOpen, onClose }) => {
                     onChange={(e) =>
                       handleSecurityDepositChange(e.target.value)
                     }
-                    className="w-full px-2 py-1 text-right rounded border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                    className="w-full bg-transparent border-none outline-none py-1 text-right text-white"
                   />
-                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">
+                  <span className="text-gray-400">
                     %
                   </span>
                 </div>
                 <span className="text-gray-400">of Items Total</span>
               </div>
-              <div className="relative w-32">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+              <div className="relative w-32 flex items-center px-1 rounded border border-white/20 bg-white/10">
+                <span className="text-gray-400">
                   MAD
                 </span>
                 <input
@@ -866,7 +849,7 @@ const AddReservation = ({ isOpen, onClose }) => {
                   onChange={(e) =>
                     handleSecurityDepositChange(e.target.value, true)
                   }
-                  className="w-full pl-16 pr-4 py-1 rounded border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/30 text-right"
+                  className="w-full bg-transparent border-none outline-none py-1 text-white text-right"
                 />
               </div>
             </div>
@@ -875,13 +858,13 @@ const AddReservation = ({ isOpen, onClose }) => {
             <div className="flex justify-between text-sm">
               <span className="text-gray-400">Additional Cost</span>
               <span className="text-white">
-                MAD{Number(formData.additionalCost).toLocaleString()}
+                MAD {Number(formData.additionalCost).toLocaleString()}
               </span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-400">Travel Cost</span>
               <span className="text-white">
-                MAD{Number(formData.travelCost).toLocaleString()}
+                MAD {Number(formData.travelCost).toLocaleString()}
               </span>
             </div>
 
@@ -889,7 +872,7 @@ const AddReservation = ({ isOpen, onClose }) => {
             <div className="border-t border-white/10 pt-3 flex justify-between">
               <span className="text-gray-200 font-medium">Subtotal</span>
               <span className="text-white font-medium">
-                MAD{financials.subtotal.toLocaleString()}
+                MAD {financials.subtotal.toLocaleString()}
               </span>
             </div>
 
@@ -897,23 +880,23 @@ const AddReservation = ({ isOpen, onClose }) => {
             <div className="flex justify-between text-sm items-center">
               <div className="flex items-center gap-2">
                 <span className="text-gray-400">Required Advance</span>
-                <div className="relative w-20">
+                <div className="relative w-20 flex items-center px-1 rounded border border-white/20 bg-white/10">
                   <input
                     type="number"
                     min="0"
                     max="100"
                     value={financials.advancePercentage.toFixed(1)}
                     onChange={(e) => handleAdvanceChange(e.target.value)}
-                    className="w-full px-2 py-1 text-right rounded border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                    className="w-full py-1 text-right text-white bg-transparent border-none outline-none"
                   />
-                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">
+                  <span className="text-gray-400">
                     %
                   </span>
                 </div>
                 <span className="text-gray-400">of Subtotal</span>
               </div>
-              <div className="relative w-32">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+              <div className="relative w-32 px-1 flex items-center rounded border border-white/20 bg-white/10">
+                <span className="text-gray-400">
                   MAD
                 </span>
                 <input
@@ -921,7 +904,7 @@ const AddReservation = ({ isOpen, onClose }) => {
                   min="0"
                   value={formData.advanceAmount || financials.advance}
                   onChange={(e) => handleAdvanceChange(e.target.value, true)}
-                  className="w-full pl-16 pr-4 py-1 rounded border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/30 text-right"
+                  className="w-full py-1 text-white bg-transparent border-none outline-none text-right"
                 />
               </div>
             </div>
