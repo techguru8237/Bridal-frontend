@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
   Cross2Icon,
   PlusIcon,
   MagnifyingGlassIcon,
-} from '@radix-ui/react-icons';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { format, addDays, subDays } from 'date-fns';
-import { addBaseURL } from '../../utils/updateURL';
-import { handleUpdateReservation } from '../../actions/reservation';
-import { useDispatch } from 'react-redux';
-import { updateReservation } from '../../store/reducers/reservationSlice';
-import { Input } from '../ui/Input';
+} from "@radix-ui/react-icons";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { format, addDays, subDays } from "date-fns";
+import { addBaseURL } from "../../utils/updateURL";
+import { handleUpdateReservation } from "../../actions/reservation";
+import { useDispatch } from "react-redux";
+import { updateReservation } from "../../store/reducers/reservationSlice";
+import { Input } from "../ui/Input";
 
 const EditReservation = ({ isOpen, onClose, reservation }) => {
   const dispatch = useDispatch();
@@ -27,21 +27,21 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
   const [formData, setFormData] = useState({
-    type: 'Final',
-    status: 'Draft',
-    pickupDate: '',
-    returnDate: '',
-    availabilityDate: '',
-    fittingDate: '',
-    pickupTime: '00:00',
-    returnTime: '00:00',
-    availabilityTime: '00:00',
-    fittingTime: '00:00',
+    type: "Final",
+    status: "Draft",
+    pickupDate: "",
+    returnDate: "",
+    availabilityDate: "",
+    fittingDate: "",
+    pickupTime: "00:00",
+    returnTime: "00:00",
+    availabilityTime: "00:00",
+    fittingTime: "00:00",
     additionalCost: 0,
     travelCost: 0,
     securityDepositPercentage: 30,
     advancePercentage: 50,
-    notes: '',
+    notes: "",
     bufferBefore: 0,
     bufferAfter: 1,
     availability: 1,
@@ -50,13 +50,13 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
 
   // Add state for financial input type
   const [financialInputType, setFinancialInputType] = useState({
-    securityDeposit: 'percentage', // or 'amount'
-    advance: 'percentage', // or 'amount'
+    securityDeposit: "percentage", // or 'amount'
+    advance: "percentage", // or 'amount'
   });
 
   // Add state for item selection
   const [isItemModalOpen, setIsItemModalOpen] = useState(false);
-  const [itemSearchTerm, setItemSearchTerm] = useState('');
+  const [itemSearchTerm, setItemSearchTerm] = useState("");
 
   useEffect(() => {
     if (selectedClient?.weddingDate) {
@@ -70,9 +70,9 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
 
       setFormData((prev) => ({
         ...prev,
-        pickupDate: format(pickupDate, 'yyyy-MM-dd'),
-        returnDate: format(returnDate, 'yyyy-MM-dd'),
-        availabilityDate: format(availabilityDate, 'yyyy-MM-dd'),
+        pickupDate: format(pickupDate, "yyyy-MM-dd"),
+        returnDate: format(returnDate, "yyyy-MM-dd"),
+        availabilityDate: format(availabilityDate, "yyyy-MM-dd"),
       }));
     }
   }, [
@@ -83,7 +83,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
   ]);
 
   useEffect(() => {
-    if (formData.type === 'Fitting') {
+    if (formData.type === "Fitting") {
       setFormData((prev) => ({
         ...prev,
         bufferBefore: 0,
@@ -174,9 +174,12 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
       case 1:
         return selectedClient && formData.type;
       case 2:
-        return (
-          formData.pickupDate && formData.returnDate && selectedItems.length > 0
-        );
+        return formData.type === "Final"
+          ? formData.pickupDate &&
+              formData.returnDate &&
+              selectedItems.length > 0
+          : formData.fittingDate &&
+              selectedItems.length > 0;
       case 3: {
         const financials = calculateFinancials();
         return financials.total >= 0 && formData.status;
@@ -255,7 +258,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
         discount: Number(formData.discount),
       };
 
-      if (formData.type === 'Final') {
+      if (formData.type === "Final") {
         reservationData.pickupDate = `${formData.pickupDate}T${formData.pickupTime}`;
         reservationData.returnDate = `${formData.returnDate}T${formData.returnTime}`;
         reservationData.availabilityDate = `${formData.availabilityDate}T${formData.availabilityTime}`;
@@ -270,31 +273,31 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
           dispatch(updateReservation(updatedReservation));
           setStep(1);
           onClose();
-          navigate('/reservations');
+          navigate("/reservations");
         }
       );
       setFormData({
-        type: 'Final',
-        status: 'Draft',
-        pickupDate: '',
-        returnDate: '',
-        availabilityDate: '',
-        pickupTime: '00:00',
-        returnTime: '00:00',
-        availabilityTime: '00:00',
+        type: "Final",
+        status: "Draft",
+        pickupDate: "",
+        returnDate: "",
+        availabilityDate: "",
+        pickupTime: "00:00",
+        returnTime: "00:00",
+        availabilityTime: "00:00",
         additionalCost: 0,
         travelCost: 0,
         securityDepositPercentage: 30,
         advancePercentage: 50,
-        notes: '',
+        notes: "",
         bufferBefore: 0,
         bufferAfter: 1,
         availability: 1,
         discount: 0,
       });
     } catch (error) {
-      console.error('Error updating reservation:', error);
-      alert('Failed to update reservation. Please try again.');
+      console.error("Error updating reservation:", error);
+      alert("Failed to update reservation. Please try again.");
     }
   };
 
@@ -306,7 +309,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
         </label>
         <div className="relative">
           <select
-            value={selectedClient?.id || ''}
+            value={selectedClient?.id || ""}
             onChange={(e) => {
               const client = clients.find((c) => c._id === e.target.value);
               setSelectedClient(client);
@@ -444,7 +447,9 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
                   />
                   <div>
                     <p className="text-white font-medium">{item.name}</p>
-                    <p className="text-sm text-gray-400">MAD{item.rentalCost}</p>
+                    <p className="text-sm text-gray-400">
+                      MAD{item.rentalCost}
+                    </p>
                     <p className="text-sm text-gray-400">
                       {
                         categories.find((cat) => cat._id === item.category)
@@ -463,7 +468,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
       )}
 
       {/* Date Selection */}
-      {formData.type === 'Final' ? (
+      {formData.type === "Final" ? (
         <div className="grid grid-cols-3 gap-4">
           <div className="space-y-2">
             <div>
@@ -471,8 +476,8 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
               <p className="text-lg font-medium text-white">
                 {/* {format(new Date(formData.pickupDate), "PPP")} */}
                 {formData.pickupDate
-                  ? format(new Date(formData.pickupDate), 'PPP')
-                  : ''}
+                  ? format(new Date(formData.pickupDate), "PPP")
+                  : ""}
               </p>
             </div>
             <div>
@@ -513,8 +518,8 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
               <p className="text-sm text-gray-400">Return Date</p>
               <p className="text-lg font-medium text-white">
                 {formData.returnDate
-                  ? format(new Date(formData.returnDate), 'PPP')
-                  : ''}
+                  ? format(new Date(formData.returnDate), "PPP")
+                  : ""}
               </p>
             </div>
             <div>
@@ -555,8 +560,8 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
               <p className="text-sm text-gray-400">Availability Date</p>
               <p className="text-lg font-medium text-white">
                 {formData.availabilityDate
-                  ? format(new Date(formData.availabilityDate), 'PPP')
-                  : ''}
+                  ? format(new Date(formData.availabilityDate), "PPP")
+                  : ""}
               </p>
             </div>
             <div>
@@ -601,7 +606,9 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
               type="date"
               name="fittingDate"
               value={formData.fittingDate}
-              onChange={(e) => setFormData({...formData, fittingDate: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, fittingDate: e.target.value })
+              }
               required
             />
           </div>
@@ -700,13 +707,13 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
                   onClick={() =>
                     setFinancialInputType((prev) => ({
                       ...prev,
-                      securityDeposit: 'percentage',
+                      securityDeposit: "percentage",
                     }))
                   }
                   className={`text-xs px-2 py-1 rounded ${
-                    financialInputType.securityDeposit === 'percentage'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-white/5 text-gray-400'
+                    financialInputType.securityDeposit === "percentage"
+                      ? "bg-blue-500 text-white"
+                      : "bg-white/5 text-gray-400"
                   }`}
                 >
                   %
@@ -715,13 +722,13 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
                   onClick={() =>
                     setFinancialInputType((prev) => ({
                       ...prev,
-                      securityDeposit: 'amount',
+                      securityDeposit: "amount",
                     }))
                   }
                   className={`text-xs px-2 py-1 rounded ${
-                    financialInputType.securityDeposit === 'amount'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-white/5 text-gray-400'
+                    financialInputType.securityDeposit === "amount"
+                      ? "bg-blue-500 text-white"
+                      : "bg-white/5 text-gray-400"
                   }`}
                 >
                   MAD
@@ -731,13 +738,13 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
             <input
               type="number"
               value={
-                financialInputType.securityDeposit === 'percentage'
+                financialInputType.securityDeposit === "percentage"
                   ? formData.securityDepositPercentage
                   : financials.securityDeposit
               }
               onChange={(e) => {
                 const value = Number(e.target.value);
-                if (financialInputType.securityDeposit === 'percentage') {
+                if (financialInputType.securityDeposit === "percentage") {
                   setFormData((prev) => ({
                     ...prev,
                     securityDepositPercentage: value,
@@ -764,13 +771,13 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
                   onClick={() =>
                     setFinancialInputType((prev) => ({
                       ...prev,
-                      advance: 'percentage',
+                      advance: "percentage",
                     }))
                   }
                   className={`text-xs px-2 py-1 rounded ${
-                    financialInputType.advance === 'percentage'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-white/5 text-gray-400'
+                    financialInputType.advance === "percentage"
+                      ? "bg-blue-500 text-white"
+                      : "bg-white/5 text-gray-400"
                   }`}
                 >
                   %
@@ -779,13 +786,13 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
                   onClick={() =>
                     setFinancialInputType((prev) => ({
                       ...prev,
-                      advance: 'amount',
+                      advance: "amount",
                     }))
                   }
                   className={`text-xs px-2 py-1 rounded ${
-                    financialInputType.advance === 'amount'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-white/5 text-gray-400'
+                    financialInputType.advance === "amount"
+                      ? "bg-blue-500 text-white"
+                      : "bg-white/5 text-gray-400"
                   }`}
                 >
                   MAD
@@ -795,13 +802,13 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
             <input
               type="number"
               value={
-                financialInputType.advance === 'percentage'
+                financialInputType.advance === "percentage"
                   ? formData.advancePercentage
                   : financials.advance
               }
               onChange={(e) => {
                 const value = Number(e.target.value);
-                if (financialInputType.advance === 'percentage') {
+                if (financialInputType.advance === "percentage") {
                   setFormData((prev) => ({
                     ...prev,
                     advancePercentage: value,
@@ -893,9 +900,9 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
   };
 
   const steps = [
-    { number: 1, title: 'Client Details' },
-    { number: 2, title: 'Items & Dates' },
-    { number: 3, title: 'Financial Details' },
+    { number: 1, title: "Client Details" },
+    { number: 2, title: "Items & Dates" },
+    { number: 3, title: "Financial Details" },
   ];
 
   if (!isOpen || !reservation) return null;
@@ -925,26 +932,26 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
                 className={`flex-1 relative ${
                   index !== steps.length - 1
                     ? 'after:content-[""] after:absolute after:top-[15px] after:left-[calc(50%+24px)] after:w-[calc(100%-48px)] after:h-[2px]'
-                    : ''
+                    : ""
                 }`}
               >
                 <div
                   className={`relative z-10 flex flex-col items-center ${
-                    index !== steps.length - 1 ? 'after:bg-white/10' : ''
+                    index !== steps.length - 1 ? "after:bg-white/10" : ""
                   }`}
                 >
                   <div
                     className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium mb-2 transition-colors ${
                       step >= stepItem.number
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-white/10 text-gray-400'
+                        ? "bg-blue-500 text-white"
+                        : "bg-white/10 text-gray-400"
                     }`}
                   >
                     {stepItem.number}
                   </div>
                   <span
                     className={`text-sm font-medium transition-colors ${
-                      step >= stepItem.number ? 'text-white' : 'text-gray-400'
+                      step >= stepItem.number ? "text-white" : "text-gray-400"
                     }`}
                   >
                     {stepItem.title}
@@ -953,7 +960,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
                 {index !== steps.length - 1 && (
                   <div
                     className={`absolute top-[15px] left-[calc(50%+24px)] w-[calc(100%-48px)] h-[2px] ${
-                      step > stepItem.number ? 'bg-blue-500' : 'bg-white/10'
+                      step > stepItem.number ? "bg-blue-500" : "bg-white/10"
                     }`}
                   />
                 )}
@@ -970,7 +977,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
           <button
             onClick={() => setStep(Math.max(1, step - 1))}
             className={`px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors ${
-              step === 1 ? 'invisible' : 'bg-white/10 hover:bg-white/20'
+              step === 1 ? "invisible" : "bg-white/10 hover:bg-white/20"
             }`}
           >
             Previous
@@ -982,8 +989,8 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
               disabled={!validateStep(step)}
               className={`px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors ${
                 validateStep(step)
-                  ? 'bg-blue-500 hover:bg-blue-600'
-                  : 'bg-blue-500/50 cursor-not-allowed'
+                  ? "bg-blue-500 hover:bg-blue-600"
+                  : "bg-blue-500/50 cursor-not-allowed"
               }`}
             >
               Update Reservation
@@ -994,8 +1001,8 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
               disabled={!validateStep(step)}
               className={`px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors ${
                 validateStep(step)
-                  ? 'bg-blue-500 hover:bg-blue-600'
-                  : 'bg-blue-500/50 cursor-not-allowed'
+                  ? "bg-blue-500 hover:bg-blue-600"
+                  : "bg-blue-500/50 cursor-not-allowed"
               }`}
             >
               Next
