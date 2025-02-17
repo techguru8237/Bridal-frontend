@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import enUS from 'date-fns/locale/en-US';
-import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
-import { format, parse, startOfWeek, getDay } from 'date-fns';
-import '../items/Calendar.css';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import enUS from "date-fns/locale/en-US";
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import { format, parse, startOfWeek, getDay } from "date-fns";
+import "../items/Calendar.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
-import ItemInformation from '../items/ItemInformation';
+import ItemInformation from "../items/ItemInformation";
 
 const locales = {
-  'en-US': enUS,
+  "en-US": enUS,
 };
 
 const localizer = dateFnsLocalizer({
@@ -21,7 +21,7 @@ const localizer = dateFnsLocalizer({
 });
 
 const ReservationsCalendarWidget = ({ reservations }) => {
-  const [view, setView] = useState('month');
+  const [view, setView] = useState("month");
   const [showItemInformation, setShowItemInformation] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState(null);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -30,15 +30,21 @@ const ReservationsCalendarWidget = ({ reservations }) => {
     return reservations?.map((reservation) => ({
       id: reservation._id, // Use the reservation ID
       title: `${reservation.client?.name}-${reservation.items[0]?.name}`, // Customize the title
-      start: new Date(reservation.pickupDate), // Start date
-      end: new Date(reservation.availabilityDate), // End date
+      start:
+        reservation.type === "Final"
+          ? new Date(reservation.pickupDate)
+          : new Date(reservation.fittingDate), // Start date
+      end:
+        reservation.type === "df"
+          ? new Date(reservation.availabilityDate)
+          : new Date(reservation.fittingDate), // End date
       customer: {
-        name: reservation.client.name || 'Unknown', // Assuming you have the client's name
+        name: reservation.client.name || "Unknown", // Assuming you have the client's name
         // Add additional customer details if available
       },
       rentalDetails: {
         cost: reservation.total || 0, // Total cost
-        notes: reservation.notes || 'No notes provided', // Notes
+        notes: reservation.notes || "No notes provided", // Notes
       },
     }));
   };
@@ -68,7 +74,7 @@ const ReservationsCalendarWidget = ({ reservations }) => {
           onNavigate={(date) => setCurrentDate(date)}
           onSelectEvent={handleSelectEvent}
           className="custom-calendar"
-          views={['month', 'week', 'day']}
+          views={["month", "week", "day"]}
           defaultView="month"
           min={new Date(0, 0, 0, 8, 0, 0)}
           max={new Date(0, 0, 0, 23, 59, 0)}

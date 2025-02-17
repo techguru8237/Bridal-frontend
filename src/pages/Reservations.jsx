@@ -156,11 +156,13 @@ const Reservations = () => {
       (sum, item) => sum + item.rentalCost,
       0
     );
+    const discount = Number(reservation.discount);
+    const discountedItemsTotal = itemsTotal - discount;
     const additionalCosts =
       Number(reservation.additionalCost) + Number(reservation.travelCost);
-    const subtotal = itemsTotal + additionalCosts;
+    const subtotal = discountedItemsTotal + additionalCosts;
     const securityDeposit =
-      itemsTotal * (reservation.securityDepositPercentage / 100);
+      subtotal * (reservation.securityDepositPercentage / 100);
     const advance = subtotal * (reservation.advancePercentage / 100);
     const total = subtotal + securityDeposit;
 

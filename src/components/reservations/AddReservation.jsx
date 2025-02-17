@@ -219,10 +219,10 @@ const AddReservation = ({ isOpen, onClose }) => {
     // Calculate security deposit percentage from amount if it exists
     const securityDeposit =
       formData.securityDepositAmount ||
-      discountedItemsTotal * (formData.securityDepositPercentage / 100);
+      subtotal * (formData.securityDepositPercentage / 100);
     const securityDepositPercentage =
-      discountedItemsTotal > 0
-        ? (securityDeposit / discountedItemsTotal) * 100
+      subtotal > 0
+        ? (securityDeposit / subtotal) * 100
         : formData.securityDepositPercentage;
 
     // Calculate advance percentage from amount if it exists
@@ -248,7 +248,7 @@ const AddReservation = ({ isOpen, onClose }) => {
   };
 
   // Add handlers for amount changes
-  const handleSecurityDepositChange = (value, isAmount = false) => {
+  const handleSecurityDepositChange = (value, isAmount) => {
     if (isAmount) {
       const amount = Number(value);
       const percentage =
@@ -803,7 +803,7 @@ const AddReservation = ({ isOpen, onClose }) => {
             <div className="flex justify-between text-sm">
               <span className="text-gray-400">Discount</span>
               <span className="text-white">
-                -MAD {financials.discount.toLocaleString()}
+                MAD -{financials.discount.toLocaleString()}
               </span>
             </div>
 
@@ -826,7 +826,7 @@ const AddReservation = ({ isOpen, onClose }) => {
                     max="100"
                     value={financials.securityDepositPercentage.toFixed(1)}
                     onChange={(e) =>
-                      handleSecurityDepositChange(e.target.value)
+                      handleSecurityDepositChange(e.target.value, false)
                     }
                     className="w-full bg-transparent border-none outline-none py-1 text-right text-white"
                   />

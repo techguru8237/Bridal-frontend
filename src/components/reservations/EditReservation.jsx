@@ -105,6 +105,9 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
         pickupDate: reservation.pickupDate
           ? new Date(reservation.pickupDate).toISOString().split("T")[0]
           : "",
+        fittingDate: reservation.fittingDate
+          ? new Date(reservation.fittingDate).toISOString().split("T")[0]
+          : "",
         returnDate: reservation.returnDate
           ? new Date(reservation.returnDate).toISOString().split("T")[0]
           : "",
@@ -113,6 +116,13 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
           : "",
         pickupTime: reservation.pickupTime
           ? new Date(reservation.pickupDate).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })
+          : "00:00",
+        fittingTime: reservation.fittingTime
+          ? new Date(reservation.fittingDate).toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
               hour12: false,
@@ -155,7 +165,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
     const discount = Number(formData.discount);
     const subtotal = itemsTotal + additionalCosts - discount;
     const securityDeposit =
-      itemsTotal * (formData.securityDepositPercentage / 100);
+      subtotal * (formData.securityDepositPercentage / 100);
     const advance = subtotal * (formData.advancePercentage / 100);
     const total = subtotal + securityDeposit;
 
@@ -469,132 +479,162 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
 
       {/* Date Selection */}
       {formData.type === "Final" ? (
-        <div className="grid grid-cols-3 gap-4">
-          <div className="space-y-2">
-            <div>
-              <p className="text-sm text-gray-400">Pickup Date</p>
-              <p className="text-lg font-medium text-white">
-                {/* {format(new Date(formData.pickupDate), "PPP")} */}
-                {formData.pickupDate
-                  ? format(new Date(formData.pickupDate), "PPP")
-                  : ""}
-              </p>
+        <div className="flex flex-col gap-4">
+          {formData.fittingDate && (
+            <div className="flex items-start gap-12">
+              <div>
+                <p className="text-sm text-gray-400">Fitting Date</p>
+                <p className="text-lg font-medium text-white">
+                  {/* {format(new Date(formData.pickupDate), "PPP")} */}
+                  {formData.fittingDate
+                    ? format(new Date(formData.fittingDate), "PPP")
+                    : ""}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Fitting Time</p>
+                <Input
+                  type="time"
+                  name="fittingTime"
+                  value={formData.fittingTime}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      fittingTime: e.target.value,
+                    }))
+                  }
+                  required
+                />
+              </div>
             </div>
-            <div>
-              <p className="text-sm text-gray-400">Pickup Time</p>
-              <Input
-                type="time"
-                name="pickupTime"
-                value={formData.pickupTime}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    pickupTime: e.target.value,
-                  }))
-                }
-                required
-              />
+          )}
+          <div className="grid grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <div>
+                <p className="text-sm text-gray-400">Pickup Date</p>
+                <p className="text-lg font-medium text-white">
+                  {/* {format(new Date(formData.pickupDate), "PPP")} */}
+                  {formData.pickupDate
+                    ? format(new Date(formData.pickupDate), "PPP")
+                    : ""}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Pickup Time</p>
+                <Input
+                  type="time"
+                  name="pickupTime"
+                  value={formData.pickupTime}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      pickupTime: e.target.value,
+                    }))
+                  }
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-200">
+                  Days Before Wedding
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.bufferBefore}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      bufferBefore: parseInt(e.target.value),
+                    })
+                  }
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-200">
-                Days Before Wedding
-              </label>
-              <input
-                type="number"
-                min="0"
-                value={formData.bufferBefore}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    bufferBefore: parseInt(e.target.value),
-                  })
-                }
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-              />
+            <div className="space-y-2">
+              <div>
+                <p className="text-sm text-gray-400">Return Date</p>
+                <p className="text-lg font-medium text-white">
+                  {formData.returnDate
+                    ? format(new Date(formData.returnDate), "PPP")
+                    : ""}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Return Time</p>
+                <Input
+                  type="time"
+                  name="weddingTime"
+                  value={formData.returnTime}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      returnTime: e.target.value,
+                    }))
+                  }
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-200">
+                  Days After Wedding
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.bufferAfter}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      bufferAfter: parseInt(e.target.value),
+                    })
+                  }
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+                />
+              </div>
             </div>
-          </div>
-          <div className="space-y-2">
-            <div>
-              <p className="text-sm text-gray-400">Return Date</p>
-              <p className="text-lg font-medium text-white">
-                {formData.returnDate
-                  ? format(new Date(formData.returnDate), "PPP")
-                  : ""}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-400">Return Time</p>
-              <Input
-                type="time"
-                name="weddingTime"
-                value={formData.returnTime}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    returnTime: e.target.value,
-                  }))
-                }
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-200">
-                Days After Wedding
-              </label>
-              <input
-                type="number"
-                min="0"
-                value={formData.bufferAfter}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    bufferAfter: parseInt(e.target.value),
-                  })
-                }
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <div>
-              <p className="text-sm text-gray-400">Availability Date</p>
-              <p className="text-lg font-medium text-white">
-                {formData.availabilityDate
-                  ? format(new Date(formData.availabilityDate), "PPP")
-                  : ""}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-400">Availability Time</p>
-              <Input
-                type="time"
-                name="weddingTime"
-                value={formData.availabilityTime}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    availabilityTime: e.target.value,
-                  }))
-                }
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-200">
-                Availability Duaration
-              </label>
-              <input
-                type="number"
-                min="0"
-                value={formData.availability}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    availability: parseInt(e.target.value),
-                  })
-                }
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-              />
+            <div className="space-y-2">
+              <div>
+                <p className="text-sm text-gray-400">Availability Date</p>
+                <p className="text-lg font-medium text-white">
+                  {formData.availabilityDate
+                    ? format(new Date(formData.availabilityDate), "PPP")
+                    : ""}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Availability Time</p>
+                <Input
+                  type="time"
+                  name="weddingTime"
+                  value={formData.availabilityTime}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      availabilityTime: e.target.value,
+                    }))
+                  }
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-200">
+                  Availability Duaration
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.availability}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      availability: parseInt(e.target.value),
+                    })
+                  }
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -831,13 +871,13 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
           <div className="flex justify-between text-sm">
             <span className="text-gray-400">Items Total:</span>
             <span className="text-white">
-              MAD{financials.itemsTotal.toLocaleString()}
+              MAD {financials.itemsTotal.toLocaleString()}
             </span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-gray-400">Additional Costs:</span>
             <span className="text-white">
-              MAD
+              MAD{" "}
               {(
                 Number(formData.additionalCost) + Number(formData.travelCost)
               ).toLocaleString()}
@@ -846,25 +886,25 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
           <div className="flex justify-between text-sm">
             <span className="text-gray-400">Discount:</span>
             <span className="text-white">
-              -MAD{financials.discount.toLocaleString()}
+              MAD -{financials.discount.toLocaleString()}
             </span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-gray-400">Security Deposit:</span>
             <span className="text-white">
-              MAD{financials.securityDeposit.toLocaleString()}
+              MAD {financials.securityDeposit.toLocaleString()}
             </span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-gray-400">Advance Payment:</span>
             <span className="text-white">
-              MAD{financials.advance.toLocaleString()}
+              MAD {financials.advance.toLocaleString()}
             </span>
           </div>
           <div className="flex justify-between font-medium pt-2 border-t border-white/10">
             <span className="text-gray-400">Total:</span>
             <span className="text-white">
-              MAD{financials.total.toLocaleString()}
+              MAD {financials.total.toLocaleString()}
             </span>
           </div>
         </div>
