@@ -166,7 +166,10 @@ const ViewReservation = ({ isOpen, onClose, reservation }) => {
               <div>
                 <label className="text-sm text-gray-400">Wedding Date</label>
                 <p className="text-white font-medium">
-                  {reservation.client.weddingDate}
+                  {format(
+                    new Date(reservation.client.weddingDate),
+                    "dd/MM/yyyy"
+                  )}
                 </p>
               </div>
               <div>
@@ -488,7 +491,7 @@ const ViewReservation = ({ isOpen, onClose, reservation }) => {
             {associatedPayments?.map((payment) => (
               <tr key={payment._id}>
                 <td className="p-4 text-white">
-                  {format(new Date(payment.paymentDate), "PP")}
+                  {format(new Date(payment.paymentDate), "yyyy-MM-dd")}
                 </td>
                 <td className="p-4 text-white">
                   MAD {payment.amount.toLocaleString()}

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   PlusIcon,
   Pencil1Icon,
@@ -8,35 +8,35 @@ import {
   MagnifyingGlassIcon,
   ChevronUpIcon,
   ChevronDownIcon,
-} from '@radix-ui/react-icons';
-import Pagination from '../components/Pagination';
-import AddReservation from '../components/reservations/AddReservation';
-import EditReservation from '../components/reservations/EditReservation';
-import ViewReservation from '../components/reservations/ViewReservation';
-import { addBaseURL } from '../utils/updateURL';
-import { handleDeleteReservation } from '../actions/reservation';
-import { deleteReservation } from '../store/reducers/reservationSlice';
+} from "@radix-ui/react-icons";
+import Pagination from "../components/Pagination";
+import AddReservation from "../components/reservations/AddReservation";
+import EditReservation from "../components/reservations/EditReservation";
+import ViewReservation from "../components/reservations/ViewReservation";
+import { addBaseURL } from "../utils/updateURL";
+import { handleDeleteReservation } from "../actions/reservation";
+import { deleteReservation } from "../store/reducers/reservationSlice";
 
 import {
   MdOutlineRadioButtonChecked,
   MdOutlineRadioButtonUnchecked,
-} from 'react-icons/md';
+} from "react-icons/md";
 
 const Reservations = () => {
   const dispatch = useDispatch();
   const reservations = useSelector((state) => state.reservation.reservations);
   const payments = useSelector((state) => state.payment.payments);
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState(null);
-  const [sortColumn, setSortColumn] = useState('createdAt');
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [typeFilter, setTypeFilter] = useState(''); // Type filter (Final, Fitting)
+  const [sortColumn, setSortColumn] = useState("createdAt");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [typeFilter, setTypeFilter] = useState(""); // Type filter (Final, Fitting)
   const [typeFilterDropdownOpen, setTypeFilterDropdownOpen] = useState(false);
 
   // Column visibility state
@@ -68,7 +68,7 @@ const Reservations = () => {
 
   const handleSort = (column) => {
     const newSortOrder =
-      sortColumn === column && sortOrder === 'asc' ? 'desc' : 'asc';
+      sortColumn === column && sortOrder === "asc" ? "desc" : "asc";
     setSortColumn(column);
     setSortOrder(newSortOrder);
   };
@@ -103,23 +103,23 @@ const Reservations = () => {
       let aValue = a[sortColumn];
       let bValue = b[sortColumn];
 
-      if (sortColumn === 'clientName') {
+      if (sortColumn === "clientName") {
         aValue = `${a.client?.name} ${a.client?.surname}`;
         bValue = `${b.client?.name} ${b.client?.surname}`;
       }
 
-      if (sortColumn === 'weddingDate') {
+      if (sortColumn === "weddingDate") {
         aValue = `${a.client?.weddingDate}`;
         bValue = `${b.client?.weddingDate}`;
       }
 
-      if (sortColumn === 'item') {
+      if (sortColumn === "item") {
         aValue = `${a.items[0]?.name}`;
         bValue = `${b.items[0]?.name}`;
       }
 
-      if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
-      if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
+      if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
+      if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
       return 0;
     });
   };
@@ -145,9 +145,9 @@ const Reservations = () => {
       0
     );
 
-    if (totalPaid >= financials.total) return 'Paid';
-    if (totalPaid > 0) return 'Partial';
-    return 'Unpaid';
+    if (totalPaid >= financials.total) return "Paid";
+    if (totalPaid > 0) return "Partial";
+    return "Unpaid";
   };
 
   // Add calculateFinancials helper
@@ -156,7 +156,9 @@ const Reservations = () => {
       (sum, item) => sum + item.rentalCost,
       0
     );
-    const discount = Number(reservation.discount);
+    
+    const discount = Number(reservation.discount ?? 0);
+
     const discountedItemsTotal = itemsTotal - discount;
     const additionalCosts =
       Number(reservation.additionalCost) + Number(reservation.travelCost);
@@ -186,7 +188,7 @@ const Reservations = () => {
   };
 
   const deleteReservationData = async (id) => {
-    if (window.confirm('Are you sure you want to delete this reservation?')) {
+    if (window.confirm("Are you sure you want to delete this reservation?")) {
       handleDeleteReservation(id, () => {
         dispatch(deleteReservation(id));
       });
@@ -243,7 +245,7 @@ const Reservations = () => {
                       <MdOutlineRadioButtonUnchecked className="text-lg" />
                     )}
                     <span className="">
-                      {column.replace(/([A-Z])/g, ' $1')}
+                      {column.replace(/([A-Z])/g, " $1")}
                     </span>
                   </div>
                 ))}
@@ -267,12 +269,12 @@ const Reservations = () => {
                 {columnVisibility.createdAt && (
                   <th
                     className="text-left text-xs font-medium text-gray-400 uppercase p-4 cursor-pointer"
-                    onClick={() => handleSort('createdAt')}
+                    onClick={() => handleSort("createdAt")}
                   >
                     <div className="flex items-center">
                       Created At
-                      {sortColumn === 'createdAt' &&
-                        (sortOrder === 'asc' ? (
+                      {sortColumn === "createdAt" &&
+                        (sortOrder === "asc" ? (
                           <ChevronUpIcon className="inline h-4 w-4" />
                         ) : (
                           <ChevronDownIcon className="inline h-4 w-4" />
@@ -283,12 +285,12 @@ const Reservations = () => {
                 {columnVisibility.clientName && (
                   <th
                     className="text-left text-xs font-medium text-gray-400 uppercase p-4 cursor-pointer"
-                    onClick={() => handleSort('clientName')}
+                    onClick={() => handleSort("clientName")}
                   >
                     <div className="flex items-center">
                       Client Name
-                      {sortColumn === 'clientName' &&
-                        (sortOrder === 'asc' ? (
+                      {sortColumn === "clientName" &&
+                        (sortOrder === "asc" ? (
                           <ChevronUpIcon className="inline h-4 w-4" />
                         ) : (
                           <ChevronDownIcon className="inline h-4 w-4" />
@@ -299,12 +301,12 @@ const Reservations = () => {
                 {columnVisibility.item && (
                   <th
                     className="text-left text-xs font-medium text-gray-400 uppercase p-4 cursor-pointer"
-                    onClick={() => handleSort('item')}
+                    onClick={() => handleSort("item")}
                   >
                     <div className="flex items-center">
                       Item
-                      {sortColumn === 'item' &&
-                        (sortOrder === 'asc' ? (
+                      {sortColumn === "item" &&
+                        (sortOrder === "asc" ? (
                           <ChevronUpIcon className="inline h-4 w-4" />
                         ) : (
                           <ChevronDownIcon className="inline h-4 w-4" />
@@ -315,12 +317,12 @@ const Reservations = () => {
                 {columnVisibility.weddingDate && (
                   <th
                     className="text-left text-xs font-medium text-gray-400 uppercase p-4 cursor-pointer"
-                    onClick={() => handleSort('weddingDate')}
+                    onClick={() => handleSort("weddingDate")}
                   >
                     <div className="flex items-center">
                       Wedding Date
-                      {sortColumn === 'weddingDate' &&
-                        (sortOrder === 'asc' ? (
+                      {sortColumn === "weddingDate" &&
+                        (sortOrder === "asc" ? (
                           <ChevronUpIcon className="inline h-4 w-4" />
                         ) : (
                           <ChevronDownIcon className="inline h-4 w-4" />
@@ -331,12 +333,12 @@ const Reservations = () => {
                 {columnVisibility.pickupDate && (
                   <th
                     className="text-left text-xs font-medium text-gray-400 uppercase p-4 cursor-pointer"
-                    onClick={() => handleSort('pickupDate')}
+                    onClick={() => handleSort("pickupDate")}
                   >
                     <div className="flex items-center">
                       Pickup Date
-                      {sortColumn === 'pickupDate' &&
-                        (sortOrder === 'asc' ? (
+                      {sortColumn === "pickupDate" &&
+                        (sortOrder === "asc" ? (
                           <ChevronUpIcon className="inline h-4 w-4" />
                         ) : (
                           <ChevronDownIcon className="inline h-4 w-4" />
@@ -347,12 +349,12 @@ const Reservations = () => {
                 {columnVisibility.returnDate && (
                   <th
                     className="text-left text-xs font-medium text-gray-400 uppercase p-4 cursor-pointer"
-                    onClick={() => handleSort('returnDate')}
+                    onClick={() => handleSort("returnDate")}
                   >
                     <div className="flex items-center">
                       Return Date
-                      {sortColumn === 'returnDate' &&
-                        (sortOrder === 'asc' ? (
+                      {sortColumn === "returnDate" &&
+                        (sortOrder === "asc" ? (
                           <ChevronUpIcon className="inline h-4 w-4" />
                         ) : (
                           <ChevronDownIcon className="inline h-4 w-4" />
@@ -363,12 +365,12 @@ const Reservations = () => {
                 {columnVisibility.availabilityDate && (
                   <th
                     className="text-left text-xs font-medium text-gray-400 uppercase p-4 cursor-pointer"
-                    onClick={() => handleSort('availabilityDate')}
+                    onClick={() => handleSort("availabilityDate")}
                   >
                     <div className="flex items-center">
                       Availability Date
-                      {sortColumn === 'availabilityDate' &&
-                        (sortOrder === 'asc' ? (
+                      {sortColumn === "availabilityDate" &&
+                        (sortOrder === "asc" ? (
                           <ChevronUpIcon className="inline h-4 w-4" />
                         ) : (
                           <ChevronDownIcon className="inline h-4 w-4" />
@@ -379,12 +381,12 @@ const Reservations = () => {
                 {columnVisibility.fittingDate && (
                   <th
                     className="text-left text-xs font-medium text-gray-400 uppercase p-4 cursor-pointer"
-                    onClick={() => handleSort('fittingDate')}
+                    onClick={() => handleSort("fittingDate")}
                   >
                     <div className="flex items-center">
                       Fitting Date
-                      {sortColumn === 'fittingDate' &&
-                        (sortOrder === 'asc' ? (
+                      {sortColumn === "fittingDate" &&
+                        (sortOrder === "asc" ? (
                           <ChevronUpIcon className="inline h-4 w-4" />
                         ) : (
                           <ChevronDownIcon className="inline h-4 w-4" />
@@ -395,12 +397,12 @@ const Reservations = () => {
                 {columnVisibility.total && (
                   <th
                     className="text-left text-xs font-medium text-gray-400 uppercase p-4 cursor-pointer"
-                    onClick={() => handleSort('total')}
+                    onClick={() => handleSort("total")}
                   >
                     <div className="flex items-center">
                       Total
-                      {sortColumn === 'total' &&
-                        (sortOrder === 'asc' ? (
+                      {sortColumn === "total" &&
+                        (sortOrder === "asc" ? (
                           <ChevronUpIcon className="inline h-4 w-4" />
                         ) : (
                           <ChevronDownIcon className="inline h-4 w-4" />
@@ -423,10 +425,10 @@ const Reservations = () => {
                       {typeFilterDropdownOpen && (
                         <div className="absolute w-36 top-12 left-0 bg-gray-800 text-white rounded-lg shadow-lg p-2 z-10">
                           <div
-                            onClick={() => handleTypeFilterChange('')}
+                            onClick={() => handleTypeFilterChange("")}
                             className="flex items-center justify-start rounded-md gap-2 w-full text-left p-2 text-sm hover:bg-gray-700 cursor-pointer"
                           >
-                            {typeFilter === '' ? (
+                            {typeFilter === "" ? (
                               <MdOutlineRadioButtonChecked className="text-lg" />
                             ) : (
                               <MdOutlineRadioButtonUnchecked className="text-lg" />
@@ -434,10 +436,10 @@ const Reservations = () => {
                             <span className="">All Types</span>
                           </div>
                           <div
-                            onClick={() => handleTypeFilterChange('Final')}
+                            onClick={() => handleTypeFilterChange("Final")}
                             className="flex items-center justify-start rounded-md gap-2 w-full text-left p-2 text-sm hover:bg-gray-700 cursor-pointer"
                           >
-                            {typeFilter === 'Final' ? (
+                            {typeFilter === "Final" ? (
                               <MdOutlineRadioButtonChecked className="text-lg" />
                             ) : (
                               <MdOutlineRadioButtonUnchecked className="text-lg" />
@@ -445,10 +447,10 @@ const Reservations = () => {
                             <span className="">Final</span>
                           </div>
                           <div
-                            onClick={() => handleTypeFilterChange('Fitting')}
+                            onClick={() => handleTypeFilterChange("Fitting")}
                             className="flex items-center justify-start rounded-md gap-2 w-full text-left p-2 text-sm hover:bg-gray-700 cursor-pointer"
                           >
-                            {typeFilter === 'Fitting' ? (
+                            {typeFilter === "Fitting" ? (
                               <MdOutlineRadioButtonChecked className="text-lg" />
                             ) : (
                               <MdOutlineRadioButtonUnchecked className="text-lg" />
@@ -463,12 +465,12 @@ const Reservations = () => {
                 {columnVisibility.payment && (
                   <th
                     className="text-left text-xs font-medium text-gray-400 uppercase p-4 cursor-pointer"
-                    onClick={() => handleSort('payment')}
+                    onClick={() => handleSort("payment")}
                   >
                     <div className="flex items-center">
                       Payment
-                      {sortColumn === 'payment' &&
-                        (sortOrder === 'asc' ? (
+                      {sortColumn === "payment" &&
+                        (sortOrder === "asc" ? (
                           <ChevronUpIcon className="inline h-4 w-4" />
                         ) : (
                           <ChevronDownIcon className="inline h-4 w-4" />
@@ -503,7 +505,7 @@ const Reservations = () => {
                       )}
                       {columnVisibility.clientName && (
                         <td className="p-4 text-white">
-                          {reservation.client?.name}{' '}
+                          {reservation.client?.name}{" "}
                           {reservation.client?.surname}
                         </td>
                       )}
@@ -537,61 +539,69 @@ const Reservations = () => {
                       )}
                       {columnVisibility.pickupDate && (
                         <td className="p-4 text-white">
-                          {reservation.type === "Final" ? new Date(reservation.pickupDate).toLocaleString(
-                            'en-US',
-                            {
-                              year: 'numeric',
-                              month: '2-digit',
-                              day: '2-digit',
-                              hour: '2-digit',
-                              minute: '2-digit',
-                              hour12: false,
-                            }
-                          ) : ""}
+                          {reservation.type === "Final"
+                            ? new Date(reservation.pickupDate).toLocaleString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  hour12: false,
+                                }
+                              )
+                            : ""}
                         </td>
                       )}
                       {columnVisibility.returnDate && (
                         <td className="p-4 text-white">
-                          {reservation.type === "Final" ? new Date(reservation.returnDate).toLocaleString(
-                            'en-US',
-                            {
-                              year: 'numeric',
-                              month: '2-digit',
-                              day: '2-digit',
-                              hour: '2-digit',
-                              minute: '2-digit',
-                              hour12: false,
-                            }
-                          ) : ""}
+                          {reservation.type === "Final"
+                            ? new Date(reservation.returnDate).toLocaleString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  hour12: false,
+                                }
+                              )
+                            : ""}
                         </td>
                       )}
                       {columnVisibility.availabilityDate && (
                         <td className="p-4 text-white">
-                          {reservation.type === "Final" ? new Date(
-                            reservation.availabilityDate
-                          ).toLocaleString('en-US', {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: false,
-                          }) : ""}
+                          {reservation.type === "Final"
+                            ? new Date(
+                                reservation.availabilityDate
+                              ).toLocaleString("en-US", {
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: false,
+                              })
+                            : ""}
                         </td>
                       )}
                       {columnVisibility.fittingDate && (
                         <td className="p-4 text-white">
-                          {reservation.type === "Fitting" ? new Date(reservation.fittingDate).toLocaleString(
-                            'en-US',
-                            {
-                              year: 'numeric',
-                              month: '2-digit',
-                              day: '2-digit',
-                              hour: '2-digit',
-                              minute: '2-digit',
-                              hour12: false,
-                            }
-                          ) : ""}
+                          {reservation.type === "Fitting"
+                            ? new Date(reservation.fittingDate).toLocaleString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  hour12: false,
+                                }
+                              )
+                            : ""}
                         </td>
                       )}
                       {columnVisibility.total && (
@@ -603,9 +613,9 @@ const Reservations = () => {
                         <td className="p-4">
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              reservation.type === 'Final'
-                                ? 'bg-purple-500/10 text-purple-400'
-                                : 'bg-blue-500/10 text-blue-400'
+                              reservation.type === "Final"
+                                ? "bg-purple-500/10 text-purple-400"
+                                : "bg-blue-500/10 text-blue-400"
                             }`}
                           >
                             {reservation.type}
@@ -616,11 +626,11 @@ const Reservations = () => {
                         <td className="p-4">
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              paymentStatus === 'Paid'
-                                ? 'bg-green-500/10 text-green-400'
-                                : paymentStatus === 'Partial'
-                                ? 'bg-yellow-500/10 text-yellow-400'
-                                : 'bg-red-500/10 text-red-400'
+                              paymentStatus === "Paid"
+                                ? "bg-green-500/10 text-green-400"
+                                : paymentStatus === "Partial"
+                                ? "bg-yellow-500/10 text-yellow-400"
+                                : "bg-red-500/10 text-red-400"
                             }`}
                           >
                             {paymentStatus}

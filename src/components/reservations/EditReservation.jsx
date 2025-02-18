@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import {
   Cross2Icon,
@@ -39,6 +39,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
     fittingTime: "00:00",
     additionalCost: 0,
     travelCost: 0,
+    securityDeposit: 0,
     securityDepositPercentage: 30,
     advancePercentage: 50,
     notes: "",
@@ -155,7 +156,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
     }
   }, [reservation]);
 
-  const calculateFinancials = () => {
+  const calculateFinancials = useCallback(() => {
     const itemsTotal = selectedItems.reduce(
       (sum, item) => sum + item.rentalCost,
       0
@@ -165,8 +166,8 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
     const discount = Number(formData.discount);
     const subtotal = itemsTotal + additionalCosts - discount;
     const securityDeposit =
-      subtotal * (formData.securityDepositPercentage / 100);
-    const advance = subtotal * (formData.advancePercentage / 100);
+      subtotal * (formData.securityDepositPercentage / 100).toFixed(1);
+    const advance = subtotal * (formData.advancePercentage / 100).toFixed(1);
     const total = subtotal + securityDeposit;
 
     return {
@@ -177,7 +178,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
       total,
       discount,
     };
-  };
+  }, [financialInputType]);
 
   const validateStep = (currentStep) => {
     switch (currentStep) {
@@ -188,8 +189,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
           ? formData.pickupDate &&
               formData.returnDate &&
               selectedItems.length > 0
-          : formData.fittingDate &&
-              selectedItems.length > 0;
+          : formData.fittingDate && selectedItems.length > 0;
       case 3: {
         const financials = calculateFinancials();
         return financials.total >= 0 && formData.status;
@@ -343,7 +343,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
           </p>
           <p className="text-sm text-gray-400">{selectedClient.phone}</p>
           <p className="text-sm text-gray-400">
-            Wedding Date: {selectedClient.weddingDate}
+            Wedding Date: {format(new Date(selectedClient.weddingDate), "dd/MM/yyyy")}
           </p>
           <p className="text-sm text-gray-400">
             City: {selectedClient.weddingCity}
@@ -485,9 +485,9 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
               <div>
                 <p className="text-sm text-gray-400">Fitting Date</p>
                 <p className="text-lg font-medium text-white">
-                  {/* {format(new Date(formData.pickupDate), "PPP")} */}
+                  {/* {format(new Date(formData.pickupDate), "dd/MM/yyyy")} */}
                   {formData.fittingDate
-                    ? format(new Date(formData.fittingDate), "PPP")
+                    ? format(new Date(formData.fittingDate), "dd/MM/yyyy")
                     : ""}
                 </p>
               </div>
@@ -513,9 +513,9 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
               <div>
                 <p className="text-sm text-gray-400">Pickup Date</p>
                 <p className="text-lg font-medium text-white">
-                  {/* {format(new Date(formData.pickupDate), "PPP")} */}
+                  {/* {format(new Date(formData.pickupDate), "dd/MM/yyyy")} */}
                   {formData.pickupDate
-                    ? format(new Date(formData.pickupDate), "PPP")
+                    ? format(new Date(formData.pickupDate), "dd/MM/yyyy")
                     : ""}
                 </p>
               </div>
@@ -557,7 +557,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
                 <p className="text-sm text-gray-400">Return Date</p>
                 <p className="text-lg font-medium text-white">
                   {formData.returnDate
-                    ? format(new Date(formData.returnDate), "PPP")
+                    ? format(new Date(formData.returnDate), "dd/MM/yyyy")
                     : ""}
                 </p>
               </div>
@@ -599,7 +599,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
                 <p className="text-sm text-gray-400">Availability Date</p>
                 <p className="text-lg font-medium text-white">
                   {formData.availabilityDate
-                    ? format(new Date(formData.availabilityDate), "PPP")
+                    ? format(new Date(formData.availabilityDate), "dd/MM/yyyy")
                     : ""}
                 </p>
               </div>
@@ -780,7 +780,7 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
               value={
                 financialInputType.securityDeposit === "percentage"
                   ? formData.securityDepositPercentage
-                  : financials.securityDeposit
+                  : formData.securityDeposit
               }
               onChange={(e) => {
                 const value = Number(e.target.value);
@@ -794,7 +794,8 @@ const EditReservation = ({ isOpen, onClose, reservation }) => {
                   const percentage = (value / itemsTotal) * 100;
                   setFormData((prev) => ({
                     ...prev,
-                    securityDepositPercentage: percentage,
+                    securityDeposit: e.target.value,
+                    securityDepositPercentage: percentage.toFixed(1),
                   }));
                 }
               }}

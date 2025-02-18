@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { format } from "date-fns";
+
 import {
   PlusIcon,
   Pencil1Icon,
@@ -139,7 +141,7 @@ const Customers = () => {
                     onChange={() => toggleColumn(column)}
                     className="mr-2"
                   />
-                  {column.replace(/([A-Z])/g, ' $1')}
+                  {column.replace(/([A-Z])/g, " $1")}
                 </label>
               ))}
             </div>
@@ -248,7 +250,7 @@ const Customers = () => {
                   )}
                   {columnVisibility.weddingDate && (
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                      {customer.weddingDate}
+                      {format(new Date(customer.weddingDate), "MM/dd/yyyy")}
                     </td>
                   )}
                   {columnVisibility.weddingCity && (

@@ -1,5 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
+import { format } from "date-fns";
 
 const CustomerPayments = ({ payments }) => {
   return (
@@ -29,7 +30,9 @@ const CustomerPayments = ({ payments }) => {
                 #{index + 1}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                {payment.paymentDate.split('T')[0]}
+                {payment.paymentDate
+                  ? format(new Date(payment.paymentDate), "dd/MM/yyyy")
+                  : ""}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
                 MAD {payment.amount}
@@ -44,10 +47,10 @@ const CustomerPayments = ({ payments }) => {
       </table>
     </div>
   );
-}
+};
 
 CustomerPayments.propTypes = {
   payments: PropTypes.array,
 };
 
-export default CustomerPayments 
+export default CustomerPayments;

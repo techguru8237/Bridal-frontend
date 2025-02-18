@@ -1,6 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { addBaseURL } from '../../../utils/updateURL';
+import React from "react";
+import PropTypes from "prop-types";
+import { format } from "date-fns";
+import { addBaseURL } from "../../../utils/updateURL";
 
 const CustomerReservations = ({ reservations }) => {
   return (
@@ -59,10 +60,14 @@ const CustomerReservations = ({ reservations }) => {
                   {reservation.service}
                 </td> */}
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                  {reservation.createdAt.split('T')[0]}
+                  {reservation.createdAt
+                    ? format(new Date(reservation.createdAt), "dd/MM/yyyy")
+                    : ""}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                  {reservation.createdAt.split('T')[1].split('.')[0]}
+                  {reservation.createdAt
+                    ? format(new Date(reservation.createdAt), "HH:MM")
+                    : ""}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
                   {reservation.service}

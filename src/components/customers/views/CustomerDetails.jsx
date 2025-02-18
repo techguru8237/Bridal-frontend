@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import { format } from "date-fns";
 
 const CustomerDetails = ({ customer }) => {
   return (
@@ -42,7 +43,8 @@ const CustomerDetails = ({ customer }) => {
                 Wedding Date & Time
               </label>
               <p className="text-white">
-                {customer?.weddingDate} at {customer?.weddingTime}
+                {format(new Date(customer?.weddingDate), "MM/dd/yyyy")} at{" "}
+                {customer?.weddingTime}
               </p>
             </div>
             <div>

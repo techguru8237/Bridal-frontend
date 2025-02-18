@@ -2,6 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from "prop-types";
 import { Cross2Icon } from '@radix-ui/react-icons';
+import { format } from "date-fns";
+
 
 export default function ItemInformation({reservation, onClose}) {
   const payments = useSelector((state) => state.payment.payments);
@@ -108,7 +110,10 @@ export default function ItemInformation({reservation, onClose}) {
   const statusConfig = getStatusConfig(reservation.status);
 
   return (
-    <div onClick={onClose} className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center overflow-y-auto p-4 z-50">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center overflow-y-auto p-4 z-50"
+    >
       <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl p-6 w-full max-w-4xl my-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
@@ -150,7 +155,7 @@ export default function ItemInformation({reservation, onClose}) {
                 <div>
                   <label className="text-sm text-gray-400">WhatsApp</label>
                   <p className="text-white font-medium">
-                    {reservation.client.whatsapp || 'Not provided'}
+                    {reservation.client.whatsapp || "Not provided"}
                   </p>
                 </div>
               </div>
@@ -158,7 +163,10 @@ export default function ItemInformation({reservation, onClose}) {
                 <div>
                   <label className="text-sm text-gray-400">Wedding Date</label>
                   <p className="text-white font-medium">
-                    {reservation.client.weddingDate}
+                    {format(
+                      new Date(reservation.client.weddingDate),
+                      "dd/MM/yyyy"
+                    )}
                   </p>
                 </div>
                 <div>
@@ -170,7 +178,7 @@ export default function ItemInformation({reservation, onClose}) {
                 <div>
                   <label className="text-sm text-gray-400">Email</label>
                   <p className="text-white font-medium">
-                    {reservation.client.email || 'Not provided'}
+                    {reservation.client.email || "Not provided"}
                   </p>
                 </div>
               </div>
@@ -222,8 +230,8 @@ export default function ItemInformation({reservation, onClose}) {
                     <label className="text-sm text-gray-400">Pickup Time</label>
                     <p className="text-white font-medium">
                       {new Date(reservation.pickupDate).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit',
+                        hour: "2-digit",
+                        minute: "2-digit",
                         hour12: false,
                       })}
                     </p>
@@ -240,8 +248,8 @@ export default function ItemInformation({reservation, onClose}) {
                     <label className="text-sm text-gray-400">Return Time</label>
                     <p className="text-white font-medium">
                       {new Date(reservation.returnDate).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit',
+                        hour: "2-digit",
+                        minute: "2-digit",
                         hour12: false,
                       })}
                     </p>
@@ -266,8 +274,8 @@ export default function ItemInformation({reservation, onClose}) {
                       {new Date(
                         reservation.availabilityDate
                       ).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit',
+                        hour: "2-digit",
+                        minute: "2-digit",
                         hour12: false,
                       })}
                     </p>
@@ -276,8 +284,8 @@ export default function ItemInformation({reservation, onClose}) {
                 <div>
                   <label className="text-sm text-gray-400">Buffer Days</label>
                   <p className="text-white font-medium">
-                    Before: {reservation.bufferBefore} days | After:{' '}
-                    {reservation.bufferAfter} days | Availability:{' '}
+                    Before: {reservation.bufferBefore} days | After:{" "}
+                    {reservation.bufferAfter} days | Availability:{" "}
                     {reservation.availability} days
                   </p>
                 </div>
@@ -298,13 +306,13 @@ export default function ItemInformation({reservation, onClose}) {
                     <p className="text-white font-medium">
                       <span
                         className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          paymentDetails.paymentStatus === 'Paid'
-                            ? 'bg-green-500/10 text-green-400'
-                            : paymentDetails.paymentStatus === 'Partial'
-                            ? 'bg-yellow-500/10 text-yellow-400'
-                            : paymentDetails.paymentStatus === 'Refunded'
-                            ? 'bg-gray-500/10 text-gray-400'
-                            : 'bg-red-500/10 text-red-400'
+                          paymentDetails.paymentStatus === "Paid"
+                            ? "bg-green-500/10 text-green-400"
+                            : paymentDetails.paymentStatus === "Partial"
+                            ? "bg-yellow-500/10 text-yellow-400"
+                            : paymentDetails.paymentStatus === "Refunded"
+                            ? "bg-gray-500/10 text-gray-400"
+                            : "bg-red-500/10 text-red-400"
                         }`}
                       >
                         {paymentDetails.paymentStatus}
@@ -316,7 +324,7 @@ export default function ItemInformation({reservation, onClose}) {
                         {paymentDetails.percentage.toFixed(1)}%)
                       </p>
                       {paymentDetails.remaining > 0 &&
-                        paymentDetails.paymentStatus !== 'Refunded' && (
+                        paymentDetails.paymentStatus !== "Refunded" && (
                           <p>
                             Remaining: MAD
                             {paymentDetails.remaining.toLocaleString()}

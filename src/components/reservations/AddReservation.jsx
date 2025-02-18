@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Cross2Icon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { format, addDays, subDays, differenceInDays } from 'date-fns';
-import { useSelector } from 'react-redux';
-import { addBaseURL } from '../../utils/updateURL';
-import { handleReserve } from '../../actions/reservation';
-import { useDispatch } from 'react-redux';
-import { addReservation } from '../../store/reducers/reservationSlice';
-import { Input } from '../ui/Input';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { Cross2Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { format, addDays, subDays, differenceInDays } from "date-fns";
+import { useSelector } from "react-redux";
+import { addBaseURL } from "../../utils/updateURL";
+import { handleReserve } from "../../actions/reservation";
+import { useDispatch } from "react-redux";
+import { addReservation } from "../../store/reducers/reservationSlice";
+import { Input } from "../ui/Input";
 
 const AddReservation = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -18,19 +18,19 @@ const AddReservation = ({ isOpen, onClose }) => {
   const reservations = useSelector((state) => state.reservation.reservations);
 
   const [formData, setFormData] = useState({
-    type: 'Final',
-    clientId: '',
+    type: "Final",
+    clientId: "",
     items: [],
-    weddingDate: '',
-    fittingDate: '',
-    pickupDate: '',
-    returnDate: '',
-    availabilityDate: '',
-    fittingTime: '00:00',
-    pickupTime: '00:00',
-    returnTime: '00:00',
-    availabilityTime: '00:00',
-    status: 'Draft',
+    weddingDate: "",
+    fittingDate: "",
+    pickupDate: "",
+    returnDate: "",
+    availabilityDate: "",
+    fittingTime: "00:00",
+    pickupTime: "00:00",
+    returnTime: "00:00",
+    availabilityTime: "00:00",
+    status: "Draft",
     additionalCost: 0,
     travelCost: 0,
     bufferBefore: 0,
@@ -39,7 +39,7 @@ const AddReservation = ({ isOpen, onClose }) => {
     securityDepositPercentage: 30,
     advancePercentage: 50,
     discount: 0,
-    notes: '',
+    notes: "",
   });
 
   const [selectedClient, setSelectedClient] = useState(null);
@@ -52,16 +52,16 @@ const AddReservation = ({ isOpen, onClose }) => {
 
   // Add new state for item selection
   const [selectedItems, setSelectedItems] = useState([]);
-  const [itemSearchTerm, setItemSearchTerm] = useState('');
+  const [itemSearchTerm, setItemSearchTerm] = useState("");
 
   const steps = [
-    { number: 1, title: 'Client Details' },
-    { number: 2, title: 'Items & Dates' },
-    { number: 3, title: 'Financial Details' },
+    { number: 1, title: "Client Details" },
+    { number: 2, title: "Items & Dates" },
+    { number: 3, title: "Financial Details" },
   ];
 
   useEffect(() => {
-    if (formData.type === 'Fitting') {
+    if (formData.type === "Fitting") {
       setFormData((prev) => ({
         ...prev,
         bufferBefore: 0,
@@ -117,7 +117,7 @@ const AddReservation = ({ isOpen, onClose }) => {
         <button
           onClick={() => {
             setSelectedClient(null);
-            setFormData((prev) => ({ ...prev, clientId: '' }));
+            setFormData((prev) => ({ ...prev, clientId: "" }));
             // setSearchTerm('');
           }}
           className="p-1 hover:bg-white/10 rounded-lg"
@@ -138,7 +138,7 @@ const AddReservation = ({ isOpen, onClose }) => {
         <div>
           <label className="text-sm text-gray-400">Wedding Date</label>
           <p className="text-white">
-            {format(new Date(client.weddingDate), 'PPP')}
+            {format(new Date(client.weddingDate), "MM/dd/yyyy")}
           </p>
         </div>
         <div>
@@ -375,9 +375,9 @@ const AddReservation = ({ isOpen, onClose }) => {
 
       setFormData((prev) => ({
         ...prev,
-        pickupDate: format(pickupDate, 'yyyy-MM-dd'),
-        returnDate: format(returnDate, 'yyyy-MM-dd'),
-        availabilityDate: format(availabilityDate, 'yyyy-MM-dd'),
+        pickupDate: format(pickupDate, "yyyy-MM-dd"),
+        returnDate: format(returnDate, "yyyy-MM-dd"),
+        availabilityDate: format(availabilityDate, "yyyy-MM-dd"),
       }));
     }
   }, [
@@ -430,7 +430,7 @@ const AddReservation = ({ isOpen, onClose }) => {
           <div>
             <p className="text-sm text-gray-400">Wedding Date</p>
             {/* <p className="text-lg font-medium text-white">
-              {format(new Date(selectedClient.weddingDate), 'PPP')}
+              {format(new Date(selectedClient.weddingDate), 'MM/dd/yyyy')}
             </p> */}
             <input
               type="date"
@@ -442,15 +442,15 @@ const AddReservation = ({ isOpen, onClose }) => {
             />
           </div>
 
-          {formData.type === 'Final' ? (
+          {formData.type === "Final" ? (
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
                 <div>
                   <p className="text-sm text-gray-400">Pickup Date</p>
                   <p className="text-lg font-medium text-white">
                     {formData.pickupDate
-                      ? format(new Date(formData.pickupDate), 'PPP')
-                      : ''}
+                      ? format(new Date(formData.pickupDate), "MM/dd/yyyy")
+                      : ""}
                   </p>
                 </div>
                 <div>
@@ -491,8 +491,8 @@ const AddReservation = ({ isOpen, onClose }) => {
                   <p className="text-sm text-gray-400">Return Date</p>
                   <p className="text-lg font-medium text-white">
                     {formData.returnDate
-                      ? format(new Date(formData.returnDate), 'PPP')
-                      : ''}
+                      ? format(new Date(formData.returnDate), "MM/dd/yyyy")
+                      : ""}
                   </p>
                 </div>
                 <div>
@@ -533,8 +533,8 @@ const AddReservation = ({ isOpen, onClose }) => {
                   <p className="text-sm text-gray-400">Availability Date</p>
                   <p className="text-lg font-medium text-white">
                     {formData.availabilityDate
-                      ? format(new Date(formData.availabilityDate), 'PPP')
-                      : ''}
+                      ? format(new Date(formData.availabilityDate), "MM/dd/yyyy")
+                      : ""}
                   </p>
                 </div>
                 <div>
@@ -625,8 +625,8 @@ const AddReservation = ({ isOpen, onClose }) => {
               key={item._id}
               className={`relative rounded-lg border ${
                 selectedItems.find((i) => i._id === item._id)
-                  ? 'border-blue-500'
-                  : 'border-white/10'
+                  ? "border-blue-500"
+                  : "border-white/10"
               } overflow-hidden group cursor-pointer`}
               onClick={() => toggleItemSelection(item)}
             >
@@ -690,7 +690,7 @@ const AddReservation = ({ isOpen, onClose }) => {
 
       // Check if the product matches the search term
       const matchesSearch =
-        itemSearchTerm === '' ||
+        itemSearchTerm === "" ||
         product.name.toLowerCase().includes(itemSearchTerm.toLowerCase()) ||
         (product.category &&
           product.category
@@ -824,27 +824,24 @@ const AddReservation = ({ isOpen, onClose }) => {
                     type="number"
                     min="0"
                     max="100"
-                    value={financials.securityDepositPercentage.toFixed(1)}
+                    value={financials.securityDepositPercentage}
                     onChange={(e) =>
                       handleSecurityDepositChange(e.target.value, false)
                     }
                     className="w-full bg-transparent border-none outline-none py-1 text-right text-white"
                   />
-                  <span className="text-gray-400">
-                    %
-                  </span>
+                  <span className="text-gray-400">%</span>
                 </div>
                 <span className="text-gray-400">of Items Total</span>
               </div>
               <div className="relative w-32 flex items-center px-1 rounded border border-white/20 bg-white/10">
-                <span className="text-gray-400">
-                  MAD
-                </span>
+                <span className="text-gray-400">MAD</span>
                 <input
                   type="number"
                   min="0"
                   value={
-                    formData.securityDepositAmount || financials.securityDeposit
+                    formData.securityDepositAmount ||
+                    financials.securityDeposit
                   }
                   onChange={(e) =>
                     handleSecurityDepositChange(e.target.value, true)
@@ -885,20 +882,16 @@ const AddReservation = ({ isOpen, onClose }) => {
                     type="number"
                     min="0"
                     max="100"
-                    value={financials.advancePercentage.toFixed(1)}
+                    value={financials.advancePercentage}
                     onChange={(e) => handleAdvanceChange(e.target.value)}
                     className="w-full py-1 text-right text-white bg-transparent border-none outline-none"
                   />
-                  <span className="text-gray-400">
-                    %
-                  </span>
+                  <span className="text-gray-400">%</span>
                 </div>
                 <span className="text-gray-400">of Subtotal</span>
               </div>
               <div className="relative w-32 px-1 flex items-center rounded border border-white/20 bg-white/10">
-                <span className="text-gray-400">
-                  MAD
-                </span>
+                <span className="text-gray-400">MAD</span>
                 <input
                   type="number"
                   min="0"
@@ -951,7 +944,7 @@ const AddReservation = ({ isOpen, onClose }) => {
         client: selectedClient._id,
         type: formData.type,
         status: formData.status,
-        paymentStatus: 'Pending',
+        paymentStatus: "Pending",
         items: selectedItems?.map((item) => item._id),
         additionalCost: Number(formData.additionalCost),
         travelCost: Number(formData.travelCost),
@@ -967,7 +960,7 @@ const AddReservation = ({ isOpen, onClose }) => {
         discount: formData.discount,
       };
 
-      if (formData.type === 'Final') {
+      if (formData.type === "Final") {
         reservationData.pickupDate = `${formData.pickupDate}T${formData.pickupTime}`;
         reservationData.returnDate = `${formData.returnDate}T${formData.returnTime}`;
         reservationData.availabilityDate = `${formData.availabilityDate}T${formData.availabilityTime}`;
@@ -981,8 +974,8 @@ const AddReservation = ({ isOpen, onClose }) => {
         onClose();
       });
     } catch (error) {
-      console.error('Error creating reservation:', error);
-      alert('Failed to create reservation. Please try again.');
+      console.error("Error creating reservation:", error);
+      alert("Failed to create reservation. Please try again.");
     }
   };
 
@@ -1067,7 +1060,7 @@ const AddReservation = ({ isOpen, onClose }) => {
         </label>
         <div className="relative">
           <select
-            value={selectedClient?._id || ''}
+            value={selectedClient?._id || ""}
             onChange={(e) => {
               const client = clients.find((c) => c._id === e.target.value);
               setSelectedClient(client);
@@ -1091,7 +1084,8 @@ const AddReservation = ({ isOpen, onClose }) => {
           </p>
           <p className="text-sm text-gray-400">{selectedClient.phone}</p>
           <p className="text-sm text-gray-400">
-            Wedding Date: {selectedClient.weddingDate}
+            Wedding Date:{" "}
+            {format(new Date(selectedClient.weddingDate), "dd/MM/yyyy")}
           </p>
           <p className="text-sm text-gray-400">
             City: {selectedClient.weddingCity}
@@ -1153,26 +1147,26 @@ const AddReservation = ({ isOpen, onClose }) => {
                 className={`flex-1 relative ${
                   index !== steps.length - 1
                     ? 'after:content-[""] after:absolute after:top-[15px] after:left-[calc(50%+24px)] after:w-[calc(100%-48px)] after:h-[2px]'
-                    : ''
+                    : ""
                 }`}
               >
                 <div
                   className={`relative z-10 flex flex-col items-center ${
-                    index !== steps.length - 1 ? 'after:bg-white/10' : ''
+                    index !== steps.length - 1 ? "after:bg-white/10" : ""
                   }`}
                 >
                   <div
                     className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium mb-2 transition-colors ${
                       step >= stepItem.number
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-white/10 text-gray-400'
+                        ? "bg-blue-500 text-white"
+                        : "bg-white/10 text-gray-400"
                     }`}
                   >
                     {stepItem.number}
                   </div>
                   <span
                     className={`text-sm font-medium transition-colors ${
-                      step >= stepItem.number ? 'text-white' : 'text-gray-400'
+                      step >= stepItem.number ? "text-white" : "text-gray-400"
                     }`}
                   >
                     {stepItem.title}
@@ -1181,7 +1175,7 @@ const AddReservation = ({ isOpen, onClose }) => {
                 {index !== steps.length - 1 && (
                   <div
                     className={`absolute top-[15px] left-[calc(50%+24px)] w-[calc(100%-48px)] h-[2px] ${
-                      step > stepItem.number ? 'bg-blue-500' : 'bg-white/10'
+                      step > stepItem.number ? "bg-blue-500" : "bg-white/10"
                     }`}
                   />
                 )}
@@ -1198,7 +1192,7 @@ const AddReservation = ({ isOpen, onClose }) => {
           <button
             onClick={() => setStep(Math.max(1, step - 1))}
             className={`px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors ${
-              step === 1 ? 'invisible' : 'bg-white/10 hover:bg-white/20'
+              step === 1 ? "invisible" : "bg-white/10 hover:bg-white/20"
             }`}
           >
             Previous
@@ -1210,8 +1204,8 @@ const AddReservation = ({ isOpen, onClose }) => {
               disabled={!validateStep(step)}
               className={`px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors ${
                 validateStep(step)
-                  ? 'bg-blue-500 hover:bg-blue-600'
-                  : 'bg-blue-500/50 cursor-not-allowed'
+                  ? "bg-blue-500 hover:bg-blue-600"
+                  : "bg-blue-500/50 cursor-not-allowed"
               }`}
             >
               Create Reservation
@@ -1222,8 +1216,8 @@ const AddReservation = ({ isOpen, onClose }) => {
               disabled={!validateStep(step)}
               className={`px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors ${
                 validateStep(step)
-                  ? 'bg-blue-500 hover:bg-blue-600'
-                  : 'bg-blue-500/50 cursor-not-allowed'
+                  ? "bg-blue-500 hover:bg-blue-600"
+                  : "bg-blue-500/50 cursor-not-allowed"
               }`}
             >
               Next
